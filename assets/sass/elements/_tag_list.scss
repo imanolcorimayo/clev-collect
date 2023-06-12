@@ -1,0 +1,53 @@
+/* Tag list */
+
+.tags {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 0;
+    &.hover-color-two {
+        li {
+            &:hover {
+                color: var(--main-color-two);
+                i {
+                    color: var(--main-color-two);
+                }
+            }
+        }
+    }
+    &.hover-color-three {
+        li {
+            &:hover {
+                color: var(--main-color-three);
+                i {
+                    color: var(--main-color-three);
+                }
+            }
+        }
+    }
+    li {
+        &:not(:last-child) {
+            margin-right: 30px;
+        }
+        font-size: 16px;
+        line-height: 20px;
+        -webkit-transition: all .3s;
+        -o-transition: all .3s;
+        transition: all .3s;
+        &:hover {
+            color: var(--main-color-one);
+            i {
+                color: var(--main-color-one);
+            }
+        }
+        i {
+            color: var(--main-color-three);
+            -webkit-transition: all .3s;
+            -o-transition: all .3s;
+            transition: all .3s;
+        }
+    }
+}

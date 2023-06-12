@@ -1,0 +1,107 @@
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+
+# Google Fonts
+# Normalize
+# Global Padding
+# Alignments
+# Clearings
+# Sections
+    ## Nav bar 
+    ## Banner Area
+    ## Category area
+    ## Service area
+    ## Marketplace area
+    ## Professional Services
+    ## Seller area
+    ## Blog area
+    ## WIdgets
+    ## Banner Inner
+    ## Category Service area
+    ## Details Overview
+    ## Contact Map
+    ## Service Overview
+    ## Join area
+    ## Signup area
+    ## Register Step area
+    ## Service Details area
+    ## Blog Details
+    ## Details Tag area
+    ## Contact area
+    ## About area
+    ## Client logo area
+    ## Error area
+    ## Profile
+    ## Dashboard area
+    ## Seller Profile Details area
+    ## Seller Order View
+    ## Invoice area
+
+# Elements
+    ## section_title
+    ## button
+    ## back_top
+    ## preloader
+    ## Author tag
+    ## Tag list
+    ## Nice Select Style
+    ## inner menu
+    ## Pagination
+    ## Overview
+    ## Checkbox
+    ## Multi Step Form
+    ## Faq
+    ## Table Css
+
+--------------------------------------------------------------*/
+
+//== Global Design
+@import "global/_mixins";
+@import "global/_variables";
+@import "global/_global";
+//== Sections
+@import "sections/_navbar";
+@import "sections/_banner";
+@import "sections/_category";
+@import "sections/_services";
+@import "sections/_marketplace";
+@import "sections/_professional";
+@import "sections/_seller";
+@import "sections/_blog";
+@import "sections/_widgets";
+@import "sections/_banner_inner";
+@import "sections/_category_service";
+@import "sections/_location_overview";
+@import "sections/_contact_map";
+@import "sections/_sevice_overview";
+@import "sections/_join";
+@import "sections/_signup";
+@import "sections/_registration_step_form";
+@import "sections/_service_details";
+@import "sections/_blog_details";
+@import "sections/_details_tag";
+@import "sections/_contact";
+@import "sections/_about";
+@import "sections/_clientlogo";
+@import "sections/_erron";
+@import "sections/_profile";
+@import "sections/_dashboard";
+@import "sections/seller_profile_all";
+@import "sections/_seller_view";
+@import "sections/_invoice";
+//== Elements
+@import "elements/_section_title";
+@import "elements/_button";
+@import "elements/_back_top";
+@import "elements/_preloader";
+@import "elements/_author_tag";
+@import "elements/_tag_list";
+@import "elements/_nice_selects";
+@import "elements/_inner_menu";
+@import "elements/_pagination";
+@import "elements/_overview";
+@import "elements/_checkbox";
+@import "elements/_multistep_form";
+@import "elements/_faq";
+@import "elements/_table";

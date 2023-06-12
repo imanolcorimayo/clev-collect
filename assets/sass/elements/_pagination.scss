@@ -1,0 +1,97 @@
+/* Pagination */
+
+.service-pagination {
+    margin-top: 50px;
+    @include responsive(xxs) {
+        margin-top: 30px;
+    }
+}
+
+.pagination-list {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 0;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    gap: 20px;
+    @include responsive(allPhone) {
+        gap: 10px;
+    }
+    &.color-two {
+        li {
+            &.active {
+                a {
+                    background: var(--main-color-two);
+                    color: $white;
+                }
+            }
+            a {
+                &:hover {
+                    background: var(--main-color-two);
+                    color: $white;
+                }
+            }
+        }
+    }
+    &.color-three {
+        li {
+            &.active {
+                a {
+                    background: var(--main-color-three);
+                    color: $white;
+                }
+            }
+            a {
+                &:hover {
+                    background: var(--main-color-three);
+                    color: $white;
+                }
+            }
+        }
+    }
+    li {
+        &.active {
+            a {
+                background: var(--main-color-one);
+                color: $white;
+            }
+        }
+        a {
+            background: $white;
+            color: var(--light-color);
+            font-size: 20px;
+            -webkit-box-shadow: 0 0 10px rgba($black, .05);
+            box-shadow: 0 0 10px rgba($black, .05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 50px;
+            width: 50px;
+            border-radius: 5px;
+            -webkit-transition: all .3s;
+            -o-transition: all .3s;
+            transition: all .3s;
+            &:hover {
+                background: var(--main-color-one);
+                color: $white;
+            }
+            @include responsive(allPhone) {
+                font-size: 18px;
+                height: 40px;
+                width: 40px;
+            }
+            @include responsive(xxs) {
+                font-size: 16px;
+                height: 35px;
+                width: 35px;
+            }
+        }
+    }
+}
