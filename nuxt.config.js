@@ -46,12 +46,16 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [],
+  bootstrapVue: {
+    // Install the `IconsPlugin` plugin (in addition to `BootstrapVue` plugin)
+    icons: true
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios', 
     '@nuxtjs/proxy',
-    '@nuxtjs/auth-next',
+    '@nuxtjs/pwa',
     /**
      * // Import the functions you need from the SDKs you need
       import { initializeApp } from "firebase/app";
@@ -79,7 +83,7 @@ export default {
       '@nuxtjs/firebase',
       {
         config: {
-          apiKey: 'AIzaSyD2GMYKUwavEpi4r7nE7RWab7H0zO1Ptww',
+          apiKey: process.env.FIREBASE_API_KEY,
           authDomain: 'celv-collect.firebaseapp.com',
           projectId: 'celv-collect',
           storageBucket: 'celv-collect.appspot.com',
@@ -93,6 +97,28 @@ export default {
       }
     ]
   ],
+
+  pwa: {
+    workbox: {
+      importScripts: ['/firebase-auth-sw.js'],
+      // by default the workbox module will not install the service worker in dev environment to avoid conflicts with HMR
+      // only set this true for testing and remember to always clear your browser cache in development
+      dev: process.env.NODE_ENV === 'development',
+    },
+  },
+
+  auth: {
+    persistence: 'local', // default
+    initialize: {
+      onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION',
+      onAuthStateChangedAction: 'onAuthStateChangedAction',
+      subscribeManually: false
+    },
+    ssr: false, // default
+    emulatorPort: 3000,
+    emulatorHost: process.env.WEB_BASE_URL,
+  },
+
   /** Axios default configuration */
   axios: {
     /* baseURL: 'http://localhost:8088/api/v1/' unused as we use proxy */

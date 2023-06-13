@@ -1,52 +1,61 @@
 <template>
-  <section class="sign-in text-center" style="max-width: 30rem; margin: auto">
-    <form class="form-signin" @submit.prevent="signIn()">
-      <img
-        class="mb-4"
-        src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg"
-        alt=""
-        width="72"
-        height="72"
-      />
-      <h1 class="h3 mb-3 font-weight-normal">Por favor inicie sesión</h1>
-      <label for="inputEmail" class="sr-only">Email</label>
-      <input
-        type="email"
-        id="inputEmail"
-        class="form-control"
-        placeholder="Email address"
-        required=""
-        autofocus=""
-        v-model="email"
-      />
-      <label for="inputPassword" class="sr-only">Contraseña</label>
-      <input
-        type="password"
-        id="inputPassword"
-        class="form-control"
-        placeholder="Password"
-        required=""
-        v-model="password"
-      />
-      <div class="checkbox mb-3">
-        <label>
-          <input type="checkbox" value="remember-me" /> Mantener sesion
-        </label>
-      </div>
-      <div class="checkbox mb-3">
-        <label>
-          No tienes cuenta? <NuxtLink to='/auth/sign-up'>registrarme</NuxtLink>
-        </label>
-      </div>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">
-        Iniciar Sesion
-      </button>
-      <p class="mt-5 mb-3 text-muted">© 2022-2023</p>
-    </form>
+  <section>
+    <!-- Banner Inner area Starts -->
+    <div class="banner-inner-area section-bg-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="banner-inner-contents">
+                        <ul class="inner-menu">
+                            <li class="list"><a href="index.html"> Home </a></li>
+                            <li class="list">Sign Up</li>
+                        </ul>
+                        <h2 class="banner-inner-title"> Sign Up Page </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Banner Inner area end -->
+    <!-- Signup area Starts -->
+    <div class="signup-area padding-top-100 padding-bottom-100">
+        <div class="container">
+            <div class="signup-wrapper">
+                <div class="signup-contents">
+                    <h3 class="signup-title"> Sign Up </h3>
+                    <form class="signup-forms">
+                        <div class="single-signup margin-top-30">
+                            <label class="signup-label"> User Name* </label>
+                            <input class="form--control" type="text" name="name" placeholder="Type Name">
+                        </div>
+                        <div class="single-signup margin-top-30">
+                            <label class="signup-label"> Password* </label>
+                            <input class="form--control" type="password" name="Password" placeholder="Type Password">
+                        </div>
+                        <div class="signup-checkbox">
+                            <div class="checkbox-inlines">
+                                <input class="check-input" type="checkbox" id="check8">
+                                <label class="checkbox-label" for="check8"> Remember me </label>
+                            </div>
+                            <div class="forgot-btn">
+                                <a href="javascript:void(0)" class="forgot-pass"> Forgot Password </a>
+                            </div>
+                        </div>
+                        <button type="submit" class="submit-button"> Login Now </button>
+                        <button class="btn btn-outline-warning" @click.prevent="googleSignIn()"><i class="bi bi-google text-grey"></i> Login with Google</button>
+                        <span class="bottom-register"> Don't have Account? <a class="resgister-link" href="javascript:void(0)"> Register </a> </span>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Signup area end -->
   </section>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   data() {
     return {
@@ -55,22 +64,18 @@ export default {
     }
   },
   methods: {
-    async signIn() {
-      const response = await this.$axios.$post('/api/v1/user/sign-in', {
-        email: this.email,
-        password: this.password,
-      })
-      if (!response) {
-        console.log('here will be an alert')
-      } else {
-        this.$store.commit('auth/setUser', {
-          name: response.name,
-          isLogged: true,
-          // Profesional will come in 0,1 format
-          isProfessional: response.isProfessional ? true : false,
-          email: response.email,
-        })
-        this.$router.push('/')
+    ...mapActions(['onAuthStateChangedAction']),
+    async googleSignIn() {
+      try {
+        const provider = new this.$fireModule.auth.GoogleAuthProvider()
+        const { user } = await this.$fire.auth.signInWithPopup(provider)
+
+        this.onAuthStateChangedAction({ authUser: user })
+
+        console.log(user) // here you can do what you want with the user data
+        // this.$router.push('/') // that return from firebase
+      } catch (e) {
+        // handle the error
       }
     },
   },

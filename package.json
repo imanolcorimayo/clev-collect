@@ -6,20 +6,16 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate",
-    "lint:prettier": "prettier --check .",
-    "lint": "yarn lint:prettier",
-    "lintfix": "prettier --write --list-different ."
+    "generate": "nuxt generate"
   },
   "dependencies": {
-    "@nuxtjs/auth-next": "5.0.0-1667386184.dfbbb54",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/firebase": "^8.2.2",
     "@nuxtjs/proxy": "^2.1.0",
     "core-js": "^3.19.3",
     "dotenv": "^16.0.1",
     "firebase": "^9.22.2",
-    "jquery": "^3.6.1",
+    "jquery": "^3.7.0",
     "nuxt": "^2.15.8",
     "vue": "^2.6.14",
     "vue-light-gallery": "^1.0.1",
@@ -29,7 +25,6 @@
     "webpack": "^4.46.0"
   },
   "devDependencies": {
-    "eslint-config-prettier": "^8.3.0",
-    "prettier": "^2.5.1"
+    "@nuxtjs/pwa": "^3.3.5"
   }
 }

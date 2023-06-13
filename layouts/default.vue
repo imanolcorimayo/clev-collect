@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-light" style="height: 100vh">
+  <div>
     <Nav />
     <Nuxt />
     <Footer />

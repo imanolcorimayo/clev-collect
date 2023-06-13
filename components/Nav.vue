@@ -104,14 +104,14 @@
                             </div>
                         </div>
                     </div>
-                    <a href="javascript:void(0)" class="info-bar-item-two">
+                    <NuxtLink to="/auth/sign-in" class="info-bar-item-two">
                         <div class="author-thumb">
                             <img src="@/assets/img/author-nav.jpg" alt="">
                         </div>
                         <div class="author-nav-content">
                             <span class="title"> Alex Jerin </span>
                         </div>
-                    </a>
+                    </NuxtLink>
                 </div>
             </div>
         </nav>
