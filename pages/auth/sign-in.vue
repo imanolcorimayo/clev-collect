@@ -23,28 +23,55 @@
             <div class="signup-wrapper">
                 <div class="signup-contents">
                     <h3 class="signup-title"> Sign Up </h3>
-                    <form class="signup-forms">
+                    <FormulateForm 
+                      :form-errors="formErrors"
+                      form-errors-class="text-danger"
+                      class="signup-forms"
+                      @submit="emailSignUp"
+                    >
                         <div class="single-signup margin-top-30">
-                            <label class="signup-label"> User Name* </label>
-                            <input class="form--control" type="text" name="name" placeholder="Type Name">
+                            <label class="signup-label"> Email* </label>
+                            <FormulateInput
+                              @validation="handleError"
+                              v-model="email"
+                              input-class="form--control"
+                              help-class="small-text"
+                              errors-class=""
+                              error-class="text-danger"
+                              type="email"
+                              name="email"
+                              placeholder="Please insert your email"
+                              help="ejemplo@gmail.com"
+                              validation="required|email"
+                              error-behavior="live"
+                            />
                         </div>
                         <div class="single-signup margin-top-30">
                             <label class="signup-label"> Password* </label>
-                            <input class="form--control" type="password" name="Password" placeholder="Type Password">
+                            <FormulateInput
+                              @validation="handleError"
+                              v-model="password"
+                              input-class="form--control"
+                              help-class="small-text"
+                              errors-class=""
+                              error-class="text-danger"
+                              type="password"
+                              name="password"
+                              placeholder="Ingresá tu contraseña"
+                              validation="required|min:10,length"
+                              validation-name="Password"
+                              error-behavior="live"
+                            />
                         </div>
-                        <div class="signup-checkbox">
-                            <div class="checkbox-inlines">
-                                <input class="check-input" type="checkbox" id="check8">
-                                <label class="checkbox-label" for="check8"> Remember me </label>
-                            </div>
-                            <div class="forgot-btn">
+                        <div v-if="!signUp" class="signup-checkbox">
+                            <div  class="forgot-btn">
                                 <a href="javascript:void(0)" class="forgot-pass"> Forgot Password </a>
                             </div>
                         </div>
-                        <button type="submit" class="submit-button"> Login Now </button>
+                        <button type="submit" class="submit-button"> {{signUp ? 'Register' : 'Login'}} Now </button>
                         <button class="btn btn-outline-warning" @click.prevent="googleSignIn()"><i class="bi bi-google text-grey"></i> Login with Google</button>
-                        <span class="bottom-register"> Don't have Account? <a class="resgister-link" href="javascript:void(0)"> Register </a> </span>
-                    </form>
+                        <span v-if="!signUp" class="bottom-register"> Don't have Account? <a class="resgister-link" href="javascript:void(0)"> Register </a> </span>
+                    </FormulateForm>
                 </div>
             </div>
         </div>
@@ -61,23 +88,88 @@ export default {
     return {
       email: '',
       password: '',
+      formErrors: [],
+      isFromClean: {
+        email: false,
+        password: false
+      },
+      signUp: true,
+      isMobile: true,
+      firebaseProvider: new this.$fireModule.auth.GoogleAuthProvider()
+    }
+  },
+  asyncData() {
+
+  },
+  async mounted(){
+    if (!this.isMobile) return;
+
+    // Check if redirected from google login page
+    var { user } = await this.$fire.auth.getRedirectResult(this.firebaseProvider)
+
+    if(user) {
+      // Update user object
+      await this.onAuthStateChangedAction({ authUser: user })
+
+      // Go to proper route
+      // this.$router.push('/') // that return from firebase
     }
   },
   methods: {
     ...mapActions(['onAuthStateChangedAction']),
     async googleSignIn() {
       try {
-        const provider = new this.$fireModule.auth.GoogleAuthProvider()
-        const { user } = await this.$fire.auth.signInWithPopup(provider)
+        // Use Firebase to login
 
+        // By Firebase docs, if mobile, sign in with redirect is preferred
+        if(this.isMobile) {
+          var { user } = await this.$fire.auth.signInWithRedirect(this.firebaseProvider)
+        } else {
+          var { user } = await this.$fire.auth.signInWithPopup(this.firebaseProvider)
+        }
+
+        // Update user object
         this.onAuthStateChangedAction({ authUser: user })
 
-        console.log(user) // here you can do what you want with the user data
+        // Go to proper route
         // this.$router.push('/') // that return from firebase
       } catch (e) {
         // handle the error
+        console.error(e)
       }
     },
+    async emailSignUp() {
+      try {
+
+        // No need validation as the form already have limited the submit if error exists
+        var { user } = await this.$fire.auth.createUserWithEmailAndPassword(this.email, this.password)
+
+        console.log(user);
+        // Use Firebase to login
+
+        // Update user object
+        this.onAuthStateChangedAction({ authUser: user })
+
+        // Go to proper route
+        // this.$router.push('/') // that return from firebase
+      } catch (e) {
+        // handle the error
+        console.error('Error trying to sign up user: ', e.message)
+        this.formErrors.push(e.message)
+      }
+    },
+    handleError(val) {
+      // Change object status
+      this.isFromClean[val.name] = !val.hasErrors
+    }
   },
 }
 </script>
+
+<style>
+.small-text {
+  font-size: .75rem;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+</style>

@@ -84,7 +84,6 @@ export const actions = {
     })
   },
   async onIdTokenChangedAction({ commit }, data) {
-    console.log("SOmething");
     if (!authUser) {
       // claims = null
       // Perform logout operations
@@ -93,8 +92,6 @@ export const actions = {
     }
   },
   async nuxtServerInit({ dispatch, commit }, { res }) {
-
-    console.log('Something');
     if (res && res.locals && res.locals.user) {
       const { allClaims: claims, idToken: token, ...authUser } = res.locals.user
   
