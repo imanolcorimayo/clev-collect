@@ -360,16 +360,6 @@ export default () => {
             }
         });
     
-        /*-----------------
-        preloader
-        ------------------*/
-        $(window).on('load', function() {
-            $('#preloader').delay(300).fadeOut('fast');
-            $('body').delay(300).css({
-                'overflow': 'visible'
-            });
-        });
-    
     
     })(jQuery);
 }

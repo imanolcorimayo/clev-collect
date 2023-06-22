@@ -10449,6 +10449,10 @@ code {
           justify-content: center;
 }
 
+#preloader {
+  display: none
+}
+
 .loader_bars {
   width: 130px;
   height: 130px;

@@ -82,6 +82,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import MobileDetect from 'mobile-detect'
 
 export default {
   data() {
@@ -94,15 +95,28 @@ export default {
         password: false
       },
       signUp: true,
-      isMobile: true,
       firebaseProvider: new this.$fireModule.auth.GoogleAuthProvider()
     }
   },
-  asyncData() {
+  asyncData({req}) {
 
+    if (!req) return;
+    // Detect if is mobile or tables
+    // This potentially might go to the vuex storage
+    const md = new MobileDetect(req.headers['user-agent'])
+    const isMobile = md.phone() !== null || md.mobile() === 'UnknownMobile'
+    const isTablet = md.tablet() !== null || md.mobile() === 'UnknownTablet'
+    const isDesktop = !isMobile && !isTablet
+
+    return {
+      isMobile,
+      isTablet,
+      isDesktop,
+    }
   },
-  async mounted(){
-    if (!this.isMobile) return;
+  async fetch(){
+    this.$helpers.switchLoader(true);
+    if (!this.isMobile && !this.isTablet) return this.$helpers.switchLoader(false);;
 
     // Check if redirected from google login page
     var { user } = await this.$fire.auth.getRedirectResult(this.firebaseProvider)
@@ -112,47 +126,56 @@ export default {
       await this.onAuthStateChangedAction({ authUser: user })
 
       // Go to proper route
-      // this.$router.push('/') // that return from firebase
+      this.$router.push('/') // that return from firebase
     }
+    this.$helpers.switchLoader(false);
   },
+  fetchOnServer: false,
   methods: {
     ...mapActions(['onAuthStateChangedAction']),
     async googleSignIn() {
+      this.$helpers.switchLoader(true);
       try {
         // Use Firebase to login
 
         // By Firebase docs, if mobile, sign in with redirect is preferred
-        if(this.isMobile) {
+        if(this.isMobile || this.isTablet) {
           var { user } = await this.$fire.auth.signInWithRedirect(this.firebaseProvider)
         } else {
           var { user } = await this.$fire.auth.signInWithPopup(this.firebaseProvider)
+
+          // Update user object
+          this.onAuthStateChangedAction({ authUser: user })
+
+          // Go to proper route
+          this.$helpers.switchLoader(false);
+          this.$router.push('/') // that return from firebase
         }
-
-        // Update user object
-        this.onAuthStateChangedAction({ authUser: user })
-
-        // Go to proper route
-        // this.$router.push('/') // that return from firebase
       } catch (e) {
+        // Hide loader
+        this.$helpers.switchLoader(false);
         // handle the error
         console.error(e)
       }
     },
     async emailSignUp() {
+      this.$helpers.switchLoader(true);
       try {
-
         // No need validation as the form already have limited the submit if error exists
         var { user } = await this.$fire.auth.createUserWithEmailAndPassword(this.email, this.password)
 
-        console.log(user);
         // Use Firebase to login
 
         // Update user object
         this.onAuthStateChangedAction({ authUser: user })
 
+        // Hide loader
+        this.$helpers.switchLoader(false);
         // Go to proper route
-        // this.$router.push('/') // that return from firebase
+        this.$router.push('/') // that return from firebase
       } catch (e) {
+        // Hide loader
+        this.$helpers.switchLoader(false);
         // handle the error
         console.error('Error trying to sign up user: ', e.message)
         this.formErrors.push(e.message)

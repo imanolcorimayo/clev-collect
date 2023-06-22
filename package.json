@@ -17,6 +17,7 @@
     "dotenv": "^16.0.1",
     "firebase": "^9.22.2",
     "jquery": "^3.7.0",
+    "mobile-detect": "^1.4.5",
     "nuxt": "^2.15.8",
     "vue": "^2.6.14",
     "vue-light-gallery": "^1.0.1",

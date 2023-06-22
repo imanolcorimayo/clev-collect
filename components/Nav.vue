@@ -106,10 +106,10 @@
                     </div>
                     <NuxtLink to="/auth/sign-in" class="info-bar-item-two">
                         <div class="author-thumb">
-                            <img src="@/assets/img/author-nav.jpg" alt="">
+                            <img :src="user.photoURL" :alt="`${user.displayName}'s profile img'`">
                         </div>
                         <div class="author-nav-content">
-                            <span class="title"> Alex Jerin </span>
+                            <span class="title"> {{ user.displayName }} </span>
                         </div>
                     </NuxtLink>
                 </div>
@@ -122,16 +122,15 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
 export default {
   computed: {
     user() {
-      return this.$store.state.auth.user
+      return this.$store.state.user
     },
   },
   methods: {
     signOut() {
-      this.$store.commit('auth/signOut')
+
     }
   }
 }

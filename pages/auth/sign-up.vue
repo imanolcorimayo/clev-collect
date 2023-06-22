@@ -72,75 +72,9 @@
 <script>
 export default {
   data() {
-    return {
-      name: '',
-      email: '',
-      password: '',
-      password2: '',
-      error: {
-        match: false,
-        message: '',
-      },
-      isProfessional: false
-    }
+    return {}
   },
   methods: {
-    async signUp() {
-      if (this.checkForm()) return
-
-      try {
-        const response = await this.$axios.$post('/api/v1/user/sign-up', {
-          name: this.name,
-          email: this.email,
-          password: this.password,
-          isProfessional: this.isProfessional ? 1 : 0,
-        })
-
-        this.error = {
-          match: false,
-          message: '',
-        };
-
-        this.$store.commit('auth/setUser', {
-          name: response.name,
-          isLogged: true,
-          // Professional will come in 0,1 format
-          isProfessional: response.isProfessional ? true : false,
-          email: response.email,
-        })
-        this.$router.push('/')
-      } catch (error) {
-
-        this.error = {
-          match: true,
-          message: error.response.data.message,
-        };
-      }
-
-    },
-    checkForm() {
-      if (this.password !== this.password2) {
-        this.error = {
-          match: true,
-          message: 'Las contraseñas no coinciden!'
-        };
-        return true
-      }
-      this.error = {
-        match: false,
-        message: ''
-      };
-      return false
-    },
-    switchProfessional(event) {
-
-      if(event.target.id == 'professional') {
-        this.isProfessional = true;
-      } else {
-        this.isProfessional = false;
-      }
-
-    }
   },
 }
 </script>
