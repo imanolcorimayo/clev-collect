@@ -1,34 +1,30 @@
 export const state = () => ({
-  counter: 0,
-  user: 0,
+  user: {},
+  isLogged: false
 })
 
 
 
 export const getters = {
-  getCounter(state) {
-    return state.counter
-  },
   getUser(state) {
     return state.user
+  },
+  getIsLogged(state) {
+    return state.isLogged
   }
 }
 
 export const mutations = {
-  increment(state) {
-    state.counter++
-  },
   /**
    * Lets figure out when this will be fired
    * @param {*} state 
    * @param {*} param1 
    */
   ON_AUTH_STATE_CHANGED_MUTATION(state, user) {
-
-    console.log(user)
     // you can request additional fields if they are optional (e.g. photoURL)
     const { uid, email, emailVerified, displayName, photoURL } = user
   
+    // Change user's information
     state.user = {
       uid,
       displayName,
@@ -38,6 +34,21 @@ export const mutations = {
       // use custom claims to control access (see https://firebase.google.com/docs/auth/admin/custom-claims)
       // isAdmin: claims.custom_claim
     }
+
+    // Changes isLogged property
+    state.isLogged = true;
+  },
+  /**
+   * Lets figure out when this will be fired
+   * @param {*} state 
+   * @param {*} param1 
+   */
+  LOG_OUT(state) {
+    // Clean user's information
+    state.user = {}
+
+    // Changes isLogged property
+    state.isLogged = false;
   },
   /**
    * This function will be fired when user's token changes
@@ -49,11 +60,7 @@ export const mutations = {
     if (!authUser) {
       // claims = null
       // Perform logout operations
-        console.log('onIdTokenChangedMutation CLAIMS:',claims);
-        console.log('onIdTokenChangedMutation AuthUser:',authUser);
     } else {
-      console.log('onIdTokenChangedMutation else CLAIMS:',claims);
-      console.log('onIdTokenChangedMutation else AuthUser:',authUser);
       // Do something with the authUser and the claims object...
       // Do this:
       const {uid, email, emailVerified} = authUser
@@ -90,6 +97,10 @@ export const actions = {
     } else {
       // Do something with the authUser and the claims object...
     }
+  },
+  async logout({ commit }, data) {
+    commit('LOG_OUT')
+    
   },
   async nuxtServerInit({ dispatch, commit }, { res }) {
     if (res && res.locals && res.locals.user) {

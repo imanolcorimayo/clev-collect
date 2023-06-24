@@ -1431,6 +1431,13 @@ code {
 .navbar-area.navbar-two .nav-container .nav-right-content .info-bar-item-two .author-nav-content .title {
   color: var(--light-color);
 }
+.navbar-area.navbar-two .nav-container .nav-right-content button {
+	background: none;
+	color: inherit;
+	border: none;
+	cursor: pointer;
+	outline: inherit;
+}
 @media (min-width: 320px) and (max-width: 991.98px) {
   .navbar-area.navbar-two .nav-container .navbar-collapse .navbar-nav {
     background: #F1F6FF;

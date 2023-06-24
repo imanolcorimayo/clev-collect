@@ -37,81 +37,102 @@
                     </ul>
                 </div>
                 <div class="nav-right-content">
-                    <div class="info-bar-item">
-                        <div class="notification-icon icon">
-                            <a class="single-icon" href="javascript:void(0)"> <i class="las la-bell"></i> </a>
-                            <span class="notification-number"> 5 </span>
-                            <div class="notification-list-wrapper">
-                                <h6 class="notification-title"> Notifications </h6>
-                                <ul class="notification-list">
-                                    <li class="list">
-                                        <div class="notification-list-flex">
-                                            <div class="item-icon">
-                                                <i class="las la-bell"></i>
+                    <client-only>
+                        <div v-if="isLogged" class="info-bar-item">
+                            <div class="notification-icon icon">
+                                <a class="single-icon" href="javascript:void(0)"> <i class="las la-bell"></i> </a>
+                                <span class="notification-number"> 5 </span>
+                                <div class="notification-list-wrapper">
+                                    <h6 class="notification-title"> Notifications </h6>
+                                    <ul class="notification-list">
+                                        <li class="list">
+                                            <div class="notification-list-flex">
+                                                <div class="item-icon">
+                                                    <i class="las la-bell"></i>
+                                                </div>
+                                                <div class="notification-contents">
+                                                    <a class="list-title" href="javascript:void(0)"> Notification One </a>
+                                                    <span class="list-sub"> 4 hours ago </span>
+                                                </div>
                                             </div>
-                                            <div class="notification-contents">
-                                                <a class="list-title" href="javascript:void(0)"> Notification One </a>
-                                                <span class="list-sub"> 4 hours ago </span>
+                                        </li>
+                                        <li class="list">
+                                            <div class="notification-list-flex">
+                                                <div class="item-icon">
+                                                    <i class="las la-bell"></i>
+                                                </div>
+                                                <div class="notification-contents">
+                                                    <a class="list-title" href="javascript:void(0)"> Notification Two </a>
+                                                    <span class="list-sub"> 8 hours ago </span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                    <li class="list">
-                                        <div class="notification-list-flex">
-                                            <div class="item-icon">
-                                                <i class="las la-bell"></i>
+                                        </li>
+                                        <li class="list">
+                                            <div class="notification-list-flex">
+                                                <div class="item-icon">
+                                                    <i class="las la-bell"></i>
+                                                </div>
+                                                <div class="notification-contents">
+                                                    <a class="list-title" href="javascript:void(0)"> Notification Three </a>
+                                                    <span class="list-sub"> 1 day ago </span>
+                                                </div>
                                             </div>
-                                            <div class="notification-contents">
-                                                <a class="list-title" href="javascript:void(0)"> Notification Two </a>
-                                                <span class="list-sub"> 8 hours ago </span>
+                                        </li>
+                                        <li class="list">
+                                            <div class="notification-list-flex">
+                                                <div class="item-icon">
+                                                    <i class="las la-bell"></i>
+                                                </div>
+                                                <div class="notification-contents">
+                                                    <a class="list-title" href="javascript:void(0)"> Notification Four </a>
+                                                    <span class="list-sub"> 3 day ago </span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                    <li class="list">
-                                        <div class="notification-list-flex">
-                                            <div class="item-icon">
-                                                <i class="las la-bell"></i>
+                                        </li>
+                                        <li class="list">
+                                            <div class="notification-list-flex">
+                                                <div class="item-icon">
+                                                    <i class="las la-bell"></i>
+                                                </div>
+                                                <div class="notification-contents">
+                                                    <a class="list-title" href="javascript:void(0)"> Notification Five </a>
+                                                    <span class="list-sub"> 7 day ago </span>
+                                                </div>
                                             </div>
-                                            <div class="notification-contents">
-                                                <a class="list-title" href="javascript:void(0)"> Notification Three </a>
-                                                <span class="list-sub"> 1 day ago </span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list">
-                                        <div class="notification-list-flex">
-                                            <div class="item-icon">
-                                                <i class="las la-bell"></i>
-                                            </div>
-                                            <div class="notification-contents">
-                                                <a class="list-title" href="javascript:void(0)"> Notification Four </a>
-                                                <span class="list-sub"> 3 day ago </span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list">
-                                        <div class="notification-list-flex">
-                                            <div class="item-icon">
-                                                <i class="las la-bell"></i>
-                                            </div>
-                                            <div class="notification-contents">
-                                                <a class="list-title" href="javascript:void(0)"> Notification Five </a>
-                                                <span class="list-sub"> 7 day ago </span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <a href="javascript:void(0)" class="all-notification"> See All Notification </a>
+                                        </li>
+                                    </ul>
+                                    <a href="javascript:void(0)" class="all-notification"> See All Notification </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <NuxtLink to="/auth/sign-in" class="info-bar-item-two">
-                        <div class="author-thumb">
-                            <img :src="user.photoURL" :alt="`${user.displayName}'s profile img'`">
+                        <div v-if="isLogged" class="nav-item dropdown">
+                            <button 
+                                class="info-bar-item-two nav-link dropdown-toggle" 
+                                id="userDropdown" 
+                                data-bs-toggle="dropdown" 
+                                aria-expanded="false"
+                            >
+                                <div class="author-thumb">
+                                    <img :src="user.photoURL" :alt="`${user.displayName }'s profile img'`">
+                                </div>
+                                <div class="author-nav-content">
+                                    <span class="title"> {{ user.displayName }} </span>
+                                </div>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+                                <li><a class="dropdown-item" href="#section1">Section 1</a></li>
+                                <li><a class="dropdown-item" href="#section2">Section 2</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><button class="dropdown-item" @click="signOut()">Cerrar Sesión</button></li>
+                            </ul>
                         </div>
-                        <div class="author-nav-content">
-                            <span class="title"> {{ user.displayName }} </span>
-                        </div>
-                    </NuxtLink>
+                        <NuxtLink v-else to="/auth/sign-in" class="info-bar-item-two">
+                            <div class="author-nav-content">
+                                <span class="title"> Iniciar Sesión </span>
+                            </div>
+                        </NuxtLink>
+                    </client-only>
                 </div>
             </div>
         </nav>
@@ -122,16 +143,31 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   computed: {
     user() {
       return this.$store.state.user
     },
+    isLogged() {
+      return this.$store.state.isLogged
+    },
   },
   methods: {
-    signOut() {
+    ...mapActions(['logout']),
+    async signOut() {
+        try {
+            // Sign out from firebase
+            const FIREBASE_PROVIDER = new this.$fireModule.auth.GoogleAuthProvider()
+            await this.$fire.auth.signOut(FIREBASE_PROVIDER)
 
-    }
+            // Clean up store
+            this.logout()
+        } catch (error) {
+            console.error(error)      
+        }
+
+    },
   }
 }
 </script>

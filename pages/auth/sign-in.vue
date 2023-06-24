@@ -7,27 +7,27 @@
                 <div class="col-lg-12">
                     <div class="banner-inner-contents">
                         <ul class="inner-menu">
-                            <li class="list"><a href="index.html"> Home </a></li>
-                            <li class="list">Sign Up</li>
+                            <li class="list"><NuxtLink to="/"> Home </NuxtLink></li>
+                            <li class="list">Iniciar Sesión</li>
                         </ul>
-                        <h2 class="banner-inner-title"> Sign Up Page </h2>
+                        <h2 class="banner-inner-title"> Iniciar Sesión </h2>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- Banner Inner area end -->
-    <!-- Signup area Starts -->
+    <!-- Sign in area Starts -->
     <div class="signup-area padding-top-100 padding-bottom-100">
         <div class="container">
             <div class="signup-wrapper">
                 <div class="signup-contents">
-                    <h3 class="signup-title"> Sign Up </h3>
+                    <h3 class="signup-title"> Iniciar Sesion </h3>
                     <FormulateForm 
                       :form-errors="formErrors"
                       form-errors-class="text-danger"
                       class="signup-forms"
-                      @submit="emailSignUp"
+                      @submit="emailSignIn"
                     >
                         <div class="single-signup margin-top-30">
                             <label class="signup-label"> Email* </label>
@@ -40,14 +40,14 @@
                               error-class="text-danger"
                               type="email"
                               name="email"
-                              placeholder="Please insert your email"
+                              placeholder="Ingresá tu email"
                               help="ejemplo@gmail.com"
                               validation="required|email"
                               error-behavior="live"
                             />
                         </div>
                         <div class="single-signup margin-top-30">
-                            <label class="signup-label"> Password* </label>
+                            <label class="signup-label"> Contraseña* </label>
                             <FormulateInput
                               @validation="handleError"
                               v-model="password"
@@ -63,20 +63,20 @@
                               error-behavior="live"
                             />
                         </div>
-                        <div v-if="!signUp" class="signup-checkbox">
+                        <div class="signup-checkbox" v-if="false">
                             <div  class="forgot-btn">
-                                <a href="javascript:void(0)" class="forgot-pass"> Forgot Password </a>
+                                <a href="javascript:void(0)" class="forgot-pass"> Olvide mi contraseña </a>
                             </div>
                         </div>
-                        <button type="submit" class="submit-button"> {{signUp ? 'Register' : 'Login'}} Now </button>
-                        <button class="btn btn-outline-warning" @click.prevent="googleSignIn()"><i class="bi bi-google text-grey"></i> Login with Google</button>
-                        <span v-if="!signUp" class="bottom-register"> Don't have Account? <a class="resgister-link" href="javascript:void(0)"> Register </a> </span>
+                        <button type="submit" class="submit-button">  Inicia Sesión </button>
+                        <button class="btn btn-outline-warning" @click.prevent="googleSignIn()"><i class="bi bi-google text-grey"></i> Inicia sesión con Google</button>
+                        <span class="bottom-register"> No tienes una cuenta? <NuxtLink class="resgister-link" to="/auth/sign-up"> Crear Cuenta </NuxtLink> </span>
                     </FormulateForm>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Signup area end -->
+    <!-- Sign in area end -->
   </section>
 </template>
 
@@ -94,7 +94,6 @@ export default {
         email: false,
         password: false
       },
-      signUp: true,
       firebaseProvider: new this.$fireModule.auth.GoogleAuthProvider()
     }
   },
@@ -158,14 +157,13 @@ export default {
         console.error(e)
       }
     },
-    async emailSignUp() {
+    async emailSignIn() {
       this.$helpers.switchLoader(true);
       try {
         // No need validation as the form already have limited the submit if error exists
-        var { user } = await this.$fire.auth.createUserWithEmailAndPassword(this.email, this.password)
+        var { user } = await this.$fire.auth.signInWithEmailAndPassword(this.email, this.password)
 
         // Use Firebase to login
-
         // Update user object
         this.onAuthStateChangedAction({ authUser: user })
 
