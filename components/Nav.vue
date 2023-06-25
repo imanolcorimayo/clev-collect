@@ -105,7 +105,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div v-if="isLogged" class="nav-item dropdown">
+                        <div v-if="isLogged" class="nav-item btn-group">
                             <button 
                                 class="info-bar-item-two nav-link dropdown-toggle" 
                                 id="userDropdown" 
@@ -119,7 +119,7 @@
                                     <span class="title"> {{ user.displayName }} </span>
                                 </div>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <ul class="dropdown-menu" aria-labelledby="userDropdown">
                                 <li><a class="dropdown-item" href="profile.html">Profile</a></li>
                                 <li><a class="dropdown-item" href="#section1">Section 1</a></li>
                                 <li><a class="dropdown-item" href="#section2">Section 2</a></li>

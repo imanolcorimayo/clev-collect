@@ -20,7 +20,6 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '@/assets/css/animate.css',
-    '@/assets/css/bootstrap.min.css',
     '@/assets/css/flaticon.css',
     '@/assets/css/slick.css',
     '@/assets/css/line-awesome.min.css',
