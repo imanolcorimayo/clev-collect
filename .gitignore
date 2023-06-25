@@ -91,5 +91,5 @@ sw.*
 
 # Firebase
 .firebase
-.public
-.functions
+public
+functions
