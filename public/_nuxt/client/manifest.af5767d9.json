@@ -1,0 +1,9 @@
+{
+  "name": "clev-collect",
+  "short_name": "clev-collect",
+  "icons": [],
+  "start_url": "/?standalone=true",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "lang": "en"
+}
