@@ -106,7 +106,6 @@ export default {
   data() {
     return {
       message: '',
-      messages: [],
       room: false,
     }
   },
@@ -117,12 +116,13 @@ export default {
     const ROOMS = (await $fire.database.ref('rooms').orderByChild('user_uid').equalTo(store.state.user.uid).get()).val();
 
     // Get first room messages if no params to open a specific one
-    // TODO: Create the value or param filter by specific room
     if(Object.keys(ROOMS).length) {
       // First ROOMS key (first room id)
       messages = (await $fire.database.ref(`messages/${Object.keys(ROOMS)[0]}`).limitToLast(10).get()).val() 
       messages = messages || []
     }
+
+    // TODO get collector or user information to show on the left side's list
 
     return {
       rooms: ROOMS,
@@ -154,12 +154,28 @@ export default {
         console.error(error)
       }
     },
-    changeRoom(roomId){
-      this.room = roomId
-      console.log(roomId)
+    async changeRoom(roomId){
+      // TODO add a loader
 
-      console.log(this.$moment(9489498489).calendar())
+      // Get new room messages
+      this.messages = await this.getRoomMessages(roomId)
+
+      this.room = roomId
+    },
+    async getRoomMessages(roomId) {
+      // Check if same room and return if so
+      if(roomId == this.room) return this.messages
+
+      try {
+        // Get messages
+        return (await this.$fire.database.ref(`messages/${roomId}`).limitToLast(10).get()).val() 
+
+      } catch (error) {
+        console.error(error)
+        return {}
+      }
     }
+    // TODO: Create a function to change from user to collector
   }
 }
 </script>
