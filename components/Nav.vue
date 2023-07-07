@@ -34,6 +34,7 @@
                         <li><NuxtLink to="/professional">Profesional Mode</NuxtLink></li>
                         <li><NuxtLink to="/blog">Blog</NuxtLink></li>
                         <li><NuxtLink to="/contact-us">Contactanos</NuxtLink></li>
+                        <li><NuxtLink to="/chat"><i class="bi bi-envelope"></i>Bandeja</NuxtLink></li>
                     </ul>
                 </div>
                 <div class="nav-right-content">

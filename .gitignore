@@ -93,3 +93,4 @@ sw.*
 .firebase
 public
 functions
+.vscode

@@ -47,6 +47,7 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     '@braid/vue-formulate/nuxt',
+    '@nuxtjs/moment'
   ],
   bootstrapVue: {
     // Install the `IconsPlugin` plugin (in addition to `BootstrapVue` plugin)
@@ -94,11 +95,20 @@ export default {
           measurementId: 'G-FEQ3XF1RP9'
         },
         services: {
-          auth: true
+          auth: {
+            ssr: true
+          },
+          database: true,
         }
       }
     ]
   ],
+
+  // Realtime Database in Firebase
+  database: {
+    emulatorPort: process.env.NODE_ENV === 'development' ? 3000 : undefined,
+    emulatorHost: 'localhost',
+  },
 
   pwa: {
     workbox: {
@@ -111,12 +121,7 @@ export default {
 
   auth: {
     persistence: 'local', // default
-    initialize: {
-      onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION',
-      onAuthStateChangedAction: 'onAuthStateChangedAction',
-      subscribeManually: false
-    },
-    ssr: false, // default
+    ssr: true,
     emulatorPort: 3000,
     emulatorHost: process.env.WEB_BASE_URL,
   },

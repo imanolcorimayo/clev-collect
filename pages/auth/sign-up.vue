@@ -119,6 +119,9 @@ export default {
       // Update user object
       await this.onAuthStateChangedAction({ authUser: user })
 
+      // Store user in firebase
+      await this.saveUser(user);
+
       // Go to proper route
       this.$router.push('/') // that return from firebase
     }
@@ -141,6 +144,9 @@ export default {
           // Update user object
           this.onAuthStateChangedAction({ authUser: user })
 
+          // Store user in firebase
+          await this.saveUser(user);
+
           // Go to proper route
           this.$helpers.switchLoader(false);
           this.$router.push('/') // that return from firebase
@@ -158,10 +164,11 @@ export default {
         // No need validation as the form already have limited the submit if error exists
         var { user } = await this.$fire.auth.createUserWithEmailAndPassword(this.email, this.password)
 
-        // Use Firebase to login
-
         // Update user object
         this.onAuthStateChangedAction({ authUser: user })
+
+        // Store user in firebase
+        await this.saveUser(user);
 
         // Hide loader
         this.$helpers.switchLoader(false);
@@ -174,6 +181,19 @@ export default {
         console.error('Error trying to sign up user: ', e.message)
         this.formErrors.push(e.message)
       }
+    },
+
+    async saveUser(user){
+      // Delete to avoid inserting twice
+      const { uid, email, emailVerified, displayName, photoURL } = user;
+
+      // Else, keep pushing messages
+      await this.$fire.database.ref(`users/${uid}`).set({
+        displayName,
+        email,
+        emailVerified,
+        photoURL
+      })
     },
     handleError(val) {
       // Change object status
