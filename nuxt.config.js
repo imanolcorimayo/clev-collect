@@ -59,6 +59,7 @@ export default {
     '@nuxtjs/axios', 
     '@nuxtjs/proxy',
     '@nuxtjs/pwa',
+    '@nuxtjs/toast',
     /**
      * // Import the functions you need from the SDKs you need
       import { initializeApp } from "firebase/app";
@@ -139,6 +140,19 @@ export default {
       pathRewrite: { '^/api/v1': '' },
       changeOrigin: true,
     },
+  },
+
+  toast: {
+    position: 'top-center',
+    register: [ // Register custom toasts
+      {
+        name: 'my-error',
+        message: 'Oops...Something went wrong',
+        options: {
+          type: 'error'
+        }
+      }
+    ]
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

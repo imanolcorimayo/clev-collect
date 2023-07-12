@@ -9,9 +9,9 @@
                     <div class="banner-inner-contents">
                         <ul class="inner-menu">
                             <li class="list"><a href="/"> Home </a></li>
-                            <li class="list"> Sé profesional </li>
+                            <li class="list"> Sé recolector </li>
                         </ul>
-                        <h2 class="banner-inner-title"> Conviertete En Profesional </h2>
+                        <h2 class="banner-inner-title"> Conviertete En Recolector </h2>
                     </div>
                 </div>
             </div>
@@ -39,17 +39,16 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="single-about">
-                        <h2 class="about-title"> Conseguí Clientes, ganá más! </h2>
+                        <h2 class="about-title"> Impactá al mundo mientras ganas! </h2>
                         <div class="about-contents">
-                            <p class="about-para"> Construimos esta página para que puedas organizar mejor tus trabajos y 
-                              brindar un servicio de mayor calidad. </p>
-                            <p class="about-para">En Search Service nos tomamos seriamente el proceso de aplicacion, esperamos lo mismo de vos!</p>
+                            <p class="about-para">Construimos esta página para que puedas contribuir activamente al cuidado del medio ambiente y ofrecer un servicio de alta calidad. </p>
+                            <p class="about-para">En ClevCollect, tomamos en serio el proceso de incorporación y esperamos que tú también lo hagas.</p>
 
                             <div class="overview-single style-03">
                                 <ul class="overview-benefits margin-top-30">
-                                    <li class="list"> Mejorá tu cartera de clientes, Coneguis mayor visibilización </li>
-                                    <li class="list"> Los clientes son votados al igual que los técnicos, evita malos clientes! </li>
-                                    <li class="list"> Tus trabajos y tus ganancias en un solo panel de administación! </li>
+                                    <li class="list">Mejora tu cartera de clientes y obtén mayor visibilidad.</li>
+                                    <li class="list">Los clientes también son evaluados, ¡evita trabajar con clientes problemáticos!</li>
+                                    <li class="list">Administra tus trabajos y ganancias en un solo panel de control.</li>
                                 </ul>
                             </div>
                         </div>
@@ -57,7 +56,7 @@
                 </div>
             </div>
             <div class="row justify-content-center" style="margin-top: 5rem">
-              <NuxtLink to="/become-tech/quiz" class="btn btn-success" style="font-size: 1.5rem">
+              <NuxtLink to="/become-collector/quiz" class="btn btn-success" style="font-size: 1.5rem">
                   ¡Comenzar Questionario!
               </NuxtLink>
             </div>
@@ -71,7 +70,7 @@
                 <div class="col-lg-6">
                     <div class="section-title">
                         <h2 class="title"> ¿Por qué ofrecer servicios en nuestra pagina? </h2>
-                        <span class="section-para"> It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. </span>
+                        <span class="section-para"> Al ofrecer servicios en nuestra página, puedes llegar a más usuarios interesados en recolección de residuos reciclables, promocionar tus servicios, gestionar trabajos y aumentar tus ingresos. Sé parte del cambio hacia un futuro sostenible! </span>
                     </div>
                 </div>
             </div>
@@ -82,7 +81,7 @@
                             <i class="las la-tools"></i>
                         </div>
                         <div class="marketplace-contents">
-                            <h4 class="common-title-two"> <a href="javascript:void(0)"> Service Commitment </a> </h4>
+                            <h4 class="common-title-two"> <a href="javascript:void(0)">Compromiso con el servicio</a></h4>
                             <p class="common-para"> It is a long established fact that a reader will be distracted by the readable. It is a long established fact that a reader. </p>
                         </div>
                     </div>
@@ -93,7 +92,7 @@
                             <i class="las la-users-cog"></i>
                         </div>
                         <div class="marketplace-contents">
-                            <h4 class="common-title-two"> <a href="javascript:void(0)"> Super Experience </a> </h4>
+                            <h4 class="common-title-two"> <a href="javascript:void(0)">Gran Experiencia</a> </h4>
                             <p class="common-para"> It is a long established fact that a reader will be distracted by the readable. It is a long established fact that a reader. </p>
                         </div>
                     </div>
@@ -104,7 +103,7 @@
                             <i class="las la-shield-alt"></i>
                         </div>
                         <div class="marketplace-contents">
-                            <h4 class="common-title-two"> <a href="javascript:void(0)"> User Data Secure </a> </h4>
+                            <h4 class="common-title-two"> <a href="javascript:void(0)">Data de Usuario Segura</a> </h4>
                             <p class="common-para"> It is a long established fact that a reader will be distracted by the readable. It is a long established fact that a reader. </p>
                         </div>
                     </div>
@@ -115,7 +114,7 @@
                             <i class="las la-stopwatch"></i>
                         </div>
                         <div class="marketplace-contents">
-                            <h4 class="common-title-two"> <a href="javascript:void(0)"> Fast Service </a> </h4>
+                            <h4 class="common-title-two"> <a href="javascript:void(0)">Servicio Rapido</a> </h4>
                             <p class="common-para"> It is a long established fact that a reader will be distracted by the readable. It is a long established fact that a reader. </p>
                         </div>
                     </div>
@@ -126,7 +125,7 @@
                             <i class="las la-file-invoice-dollar"></i>
                         </div>
                         <div class="marketplace-contents">
-                            <h4 class="common-title-two"> <a href="javascript:void(0)"> Secure Payment </a> </h4>
+                            <h4 class="common-title-two"> <a href="javascript:void(0)">Proceso de Pago Seguro</a> </h4>
                             <p class="common-para"> It is a long established fact that a reader will be distracted by the readable. It is a long established fact that a reader. </p>
                         </div>
                     </div>
@@ -137,7 +136,7 @@
                             <i class="las la-headset"></i>
                         </div>
                         <div class="marketplace-contents">
-                            <h4 class="common-title-two"> <a href="javascript:void(0)"> Dedicated Support </a> </h4>
+                            <h4 class="common-title-two"> <a href="javascript:void(0)">Atencion al Cliente Dedicado</a> </h4>
                             <p class="common-para"> It is a long established fact that a reader will be distracted by the readable. It is a long established fact that a reader. </p>
                         </div>
                     </div>
