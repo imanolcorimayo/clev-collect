@@ -73,7 +73,12 @@
 
 <script>
 export default {
-  /* middleware: ['auth'], */
+  middleware: ['userIsLogged', 'quizTaken'],
+  computed: {
+    user() {
+      return this.$store.state.user
+    },
+  },
   data() {
     return {
       show: false,
@@ -107,14 +112,49 @@ export default {
       if (this.show) return;
       this.show = true;
     },
-    sendQuiz() {
+    async sendQuiz() {
       // Check all question have answer
       const AUX_ANSWERS = this.finalAnswers.filter(el => el == null)
       if(AUX_ANSWERS.length) return this.$toast.error('Error, tienes que contestar todas las preguntas para poder continuar.')
 
-      // TODO: Send quiz. If success, create collector account with quiz passed status
+
+      if(this.checkIfQuizPassed(this.finalAnswers, this.quiz)) {
+        // TODO: Send quiz. If success, create collector account with quiz passed status
+
+        // Else, keep pushing messages
+        await this.$fire.database.ref(`collectors`).push({
+          user_uid: this.user.uid,
+          collector_status: 'QUIZ_PASSED' 
+        })
+      }
       // TODO: If no quiz passed, create collector account with quiz failed
-    }
+      await this.$fire.database.ref(`collectors`).push({
+        user_uid: this.user.uid,
+        collector_status: 'QUIZ_FAILED' 
+      })
+
+      this.$route.push('become-collector/welcome')
+    },
+    /**
+     * This function will receive the answers and will work as a reference for the 
+     * final function that will calculate if collector passed the quiz or not
+     * 
+     * @param {*} answers 
+     */
+    checkIfQuizPassed(answers, quiz) {
+      // The max is 5*3 = 15
+      // We will allow only have 1 question at 1 point, so 4*3 + 1 = 13
+      const SCORE_TO_PASS = 13;
+
+      // Calculate total scored
+      // TODO probable using reduce function is cleaner
+      let score = 0;
+      for(let i = 0; i < quiz.length; i++) {
+        score += quiz[i].answers[answers[i]].weight
+      }
+      // Return true only if met conditions
+      return score >= SCORE_TO_PASS;
+    },
   }
 }
 </script>

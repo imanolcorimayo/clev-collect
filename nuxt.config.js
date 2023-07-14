@@ -134,13 +134,7 @@ export default {
   },
 
   /** Proxy object is used to prevent CORS problems */
-  proxy: {
-    '/api/v1': {
-      target: `${process.env.API_BASE_URL}/api/v1`,
-      pathRewrite: { '^/api/v1': '' },
-      changeOrigin: true,
-    },
-  },
+  proxy: {},
 
   toast: {
     position: 'top-center',

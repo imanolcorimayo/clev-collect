@@ -614,7 +614,7 @@
                                 </li>
                             </ul>
                             <div class="btn-wrapper">
-                                <a href="/become-tech" class="cmn-btn btn-bg-2"> Become a Seller </a>
+                                <a href="/become-collector" class="cmn-btn btn-bg-2"> Become a Seller </a>
                             </div>
                         </div>
                     </div>

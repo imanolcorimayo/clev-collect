@@ -1,10 +1,10 @@
 const ignorePaths = ["\u002F__webpack_hmr","\u002F_loading","\u002F_nuxt\u002F"]
 
 importScripts(
-  'https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js'
+  'https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js'
 )
 importScripts(
-  'https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js'
+  'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js'
 )
 firebase.initializeApp({"apiKey":"AIzaSyD2GMYKUwavEpi4r7nE7RWab7H0zO1Ptww","authDomain":"celv-collect.firebaseapp.com","projectId":"celv-collect","storageBucket":"celv-collect.appspot.com","messagingSenderId":"391820490847","appId":"1:391820490847:web:7e9ec236917543e83943ea","measurementId":"G-FEQ3XF1RP9"})
 
