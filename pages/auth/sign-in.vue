@@ -122,7 +122,7 @@ export default {
 
     if(user) {
       // Update user object
-      await this.onAuthStateChangedAction({ authUser: user })
+      await this.onAuthStateChangedAction({ authUser: user, $fire: this.$fire })
 
       // Go to proper route
       this.$router.push('/') // that return from firebase
@@ -142,14 +142,14 @@ export default {
           var { user } = await this.$fire.auth.signInWithRedirect(this.firebaseProvider)
         } else {
           var { user } = await this.$fire.auth.signInWithPopup(this.firebaseProvider)
-
-          // Update user object
-          this.onAuthStateChangedAction({ authUser: user })
-
-          // Go to proper route
-          this.$helpers.switchLoader(false);
-          this.$router.push('/') // that return from firebase
         }
+
+        // Update user object
+        this.onAuthStateChangedAction({ authUser: user, $fire: this.$fire })
+
+        // Go to proper route
+        this.$helpers.switchLoader(false);
+        this.$router.push('/') // that return from firebase
       } catch (e) {
         // Hide loader
         this.$helpers.switchLoader(false);
@@ -165,7 +165,7 @@ export default {
 
         // Use Firebase to login
         // Update user object
-        this.onAuthStateChangedAction({ authUser: user })
+        this.onAuthStateChangedAction({ authUser: user, $fire: this.$fire })
 
         // Hide loader
         this.$helpers.switchLoader(false);

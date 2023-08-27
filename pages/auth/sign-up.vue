@@ -117,7 +117,7 @@ export default {
 
     if(user) {
       // Update user object
-      await this.onAuthStateChangedAction({ authUser: user })
+      await this.onAuthStateChangedAction({ authUser: user, $fire: this.$fire })
 
       // Store user in firebase
       await this.saveUser(user);
@@ -142,7 +142,7 @@ export default {
           var { user } = await this.$fire.auth.signInWithPopup(this.firebaseProvider)
 
           // Update user object
-          this.onAuthStateChangedAction({ authUser: user })
+          this.onAuthStateChangedAction({ authUser: user, $fire: this.$fire })
 
           // Store user in firebase
           await this.saveUser(user);
@@ -165,7 +165,7 @@ export default {
         var { user } = await this.$fire.auth.createUserWithEmailAndPassword(this.email, this.password)
 
         // Update user object
-        this.onAuthStateChangedAction({ authUser: user })
+        this.onAuthStateChangedAction({ authUser: user, $fire: this.$fire })
 
         // Store user in firebase
         await this.saveUser(user);
@@ -184,10 +184,10 @@ export default {
     },
 
     async saveUser(user){
-      // Delete to avoid inserting twice
+      // Get specific information
       const { uid, email, emailVerified, displayName, photoURL } = user;
 
-      // Else, keep pushing messages
+      // Create value
       await this.$fire.database.ref(`users/${uid}`).set({
         displayName,
         email,

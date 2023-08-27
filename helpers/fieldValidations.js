@@ -63,10 +63,13 @@ export const zipLength = (value) => (value && value.length !== 5 ? `Must be 5 di
 export const bioLength = (value) =>
   value && value.length < 400 ? `Your description must be at least 400 characters long` : false;
 
-export const bioMinLength = (value) =>
-  value && value.split(" ").filter((n) => n != "").length < 100
-    ? `Your description must be at least ${100} words long`
+export const bioMinLength = (value) => {
+  const BIO_LENGTH = value.split(" ").filter((n) => n != "").length;
+  
+  return value && BIO_LENGTH < 100
+    ? `${BIO_LENGTH}/100 palabras. No puedes seguir si no completas las palabras.`
     : undefined;
+}
 
 const capitalize = (s) => {
   if (typeof s !== "string") return "";

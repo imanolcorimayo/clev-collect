@@ -263,7 +263,7 @@ export default () => {
                 Multi step Form
             ------------------------------
             */
-            var current_fs, next_fs, previous_fs; //fieldsets
+            /* var current_fs, next_fs, previous_fs; //fieldsets
             var opacity;
             var current = 1;
             var steps = $("fieldset").length;
@@ -320,7 +320,7 @@ export default () => {
                     },
                     duration: 500
                 });
-            });
+            }); */
     
             // $(document).on('click', ".submit", (function() {
             //         return false;
