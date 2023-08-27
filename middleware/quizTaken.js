@@ -22,7 +22,7 @@ export default async function ({$fire, store, redirect}) {
       })
 
       // If something is incomplete, then user should go to complete application
-      if(flag) return redirect('become-collector/complete-application');
+      if(flag) return redirect('/become-collector/complete-application');
 
       // If not, just redirect to home
       return redirect('/');

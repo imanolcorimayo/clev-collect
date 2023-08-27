@@ -94,6 +94,13 @@ html {
   /* WebKit  */
 }
 
+.disabled{
+  cursor: not-allowed !important;
+  background-color: #333333 !important;
+  opacity: .3 !important;
+  border: none !important;
+}
+
 body {
   margin: 0;
   color: var(--extra-light-color);
@@ -6246,9 +6253,9 @@ code {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+  -webkit-box-align: top;
+  -ms-flex-align: top;
+  align-items: top;
   gap: 20px;
 }
 @media only screen and (max-width: 575.98px) {
@@ -11142,7 +11149,7 @@ code {
     font-size: 40px;
   }
 }
-.successful-card .succcess-icon {
+.successful-card .success-icon {
   font-size: 200px;
   color: var(--main-color-one);
   text-align: center;
@@ -11150,7 +11157,7 @@ code {
   display: block;
 }
 @media (min-width: 320px) and (max-width: 991.98px) {
-  .successful-card .succcess-icon {
+  .successful-card .success-icon {
     line-height: 1;
     font-size: 150px;
   }

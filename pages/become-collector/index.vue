@@ -41,13 +41,18 @@
                     <div class="single-about">
                         <h2 class="about-title"> Impactá al mundo mientras ganas! </h2>
                         <div class="about-contents">
-                            <p class="about-para">Construimos esta página para que puedas contribuir activamente al cuidado del medio ambiente y ofrecer un servicio de alta calidad. </p>
+                            <p class="about-para">
+                                Construimos esta página para que puedas contribuir activamente al 
+                                cuidado del medio ambiente y ofrecer un servicio de alta calidad. 
+                                En ClevCollect creemos que el principal problema del reciclaje es el acopio
+                                ineficiente del material, vos podes ser un componente clave en la solución.
+                            </p>
                             <p class="about-para">En ClevCollect, tomamos en serio el proceso de incorporación y esperamos que tú también lo hagas.</p>
 
                             <div class="overview-single style-03">
                                 <ul class="overview-benefits margin-top-30">
                                     <li class="list">Mejora tu cartera de clientes y obtén mayor visibilidad.</li>
-                                    <li class="list">Los clientes también son evaluados, ¡evita trabajar con clientes problemáticos!</li>
+                                    <li class="list">Forma parte de un verdadero cambio en el concepto del reciclaje.</li>
                                     <li class="list">Administra tus trabajos y ganancias en un solo panel de control.</li>
                                 </ul>
                             </div>
@@ -56,8 +61,11 @@
                 </div>
             </div>
             <div class="row justify-content-center" style="margin-top: 5rem">
-              <NuxtLink to="/become-collector/quiz" class="btn btn-success" style="font-size: 1.5rem">
-                  ¡Comenzar Questionario!
+              <NuxtLink 
+                to="/become-collector/complete-application" 
+                class="btn btn-success" 
+                style="font-size: 1.5rem; max-width: 40rem;">
+                  !Empezar como recolector!
               </NuxtLink>
             </div>
         </div>

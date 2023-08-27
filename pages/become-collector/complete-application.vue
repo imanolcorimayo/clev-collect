@@ -6,7 +6,7 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="banner-inner-contents text-center">
-              <h2 class="banner-inner-title">Register For Join With Us</h2>
+              <h2 class="banner-inner-title">Registrate y se parte de esta comunidad</h2>
             </div>
           </div>
         </div>
@@ -26,7 +26,7 @@
                       <i class="las la-briefcase"></i>
                     </div>
                     <div class="contents">
-                      <h4 class="title">Profesional</h4>
+                      <h4 class="title">Recolector</h4>
                     </div>
                   </div>
                 </li>
@@ -55,32 +55,52 @@
                   <!-- Information -->
                   <fieldset class="fieldset-info">
                     <div class="information-all margin-top-55">
-                      <h3 class="register-title">Seller Information</h3>
+                      <h3 class="register-title">Información básica</h3>
+                      <span class="section-para"> 
+                        Te pedimos esta informacion para poder estar en contacto contigo por cualquier 
+                        situacion que lo pueda requerir. 
+                      </span>
                       <div class="info-forms">
                         <div class="single-forms">
                           <div class="single-content margin-top-30">
-                            <label class="forms-label"> First Name* </label>
-                            <input
-                              class="form--control"
+                            <label class="forms-label"> Nombre* </label>
+                            <FormulateInput
+                              @validation="handleError"
+                              v-model="basicInformation.firstName"
+                              input-class="form--control"
+                              errors-class=""
+                              error-class="text-danger custom-error"
                               type="text"
-                              name="name"
-                              placeholder="Firts Name"
+                              name="firstName"
+                              placeholder="Nombre"
+                              validation="required|max:64,length"
+                              validation-name="Nombre"
+                              error-behavior="live"
                             />
                           </div>
                           <div class="single-content margin-top-30">
-                            <label class="forms-label"> Last Name* </label>
-                            <input
-                              class="form--control"
+                            <label class="forms-label"> Apellido* </label>
+                            <FormulateInput
+                              @validation="handleError"
+                              v-model="basicInformation.lastName"
+                              input-class="form--control"
+                              errors-class=""
+                              error-class="text-danger custom-error"
                               type="text"
-                              name="name"
-                              placeholder="Last Name"
+                              name="lastName"
+                              placeholder="Apellido"
+                              validation="required|max:64,length"
+                              validation-name="Apellido"
+                              error-behavior="live"
                             />
                           </div>
                         </div>
                         <div class="single-forms">
                           <div class="single-content margin-top-30">
-                            <label class="forms-label"> Email Address* </label>
+                            <label class="forms-label"> Email* </label>
                             <input
+                              disabled
+                              v-model="basicInformation.email"
                               class="form--control"
                               type="text"
                               name="email"
@@ -88,39 +108,33 @@
                             />
                           </div>
                           <div class="single-content margin-top-30">
-                            <label class="forms-label"> Phone Number* </label>
-                            <input
-                              class="form--control"
+                            <label class="forms-label"> Teléfono* </label>
+                            <FormulateInput
+                              @validation="handleError"
+                              v-model="basicInformation.phone"
+                              input-class="form--control"
+                              help-class="small-text position-absolute"
+                              errors-class=""
+                              error-class="text-danger custom-error"
                               type="tel"
-                              placeholder="Type Number"
-                            />
-                          </div>
-                        </div>
-                        <div class="single-forms">
-                          <div class="single-content margin-top-30">
-                            <label class="forms-label"> Password* </label>
-                            <input
-                              class="form--control"
-                              type="password"
-                              name="Password"
-                              placeholder="Type Password"
-                            />
-                          </div>
-                          <div class="single-content margin-top-30">
-                            <label class="forms-label">
-                              Confirm Password*
-                            </label>
-                            <input
-                              class="form--control"
-                              type="password"
-                              name="Password"
-                              placeholder="Retype Password"
+                              name="phone"
+                              maxlength=14
+                              :error="fromHasErrors.phone ? 'Número inválido.' : null"
+                              placeholder="Ingresá tu telefono"
+                              validation="required|max:14,length"
+                              validation-name="Telefono"
+                              error-behavior="live"
+                              help="Ej: (111) 111-1111"
                             />
                           </div>
                         </div>
                         <div class="btn-wrapper margin-top-40">
-                          <button type="submit" class="cmn-button btn-bg-1">
-                            Submit
+                          <button 
+                            @click="submitBasicInformation" 
+                            class="cmn-button btn-bg-1"
+                            form="noForm"
+                          >
+                            Guardar
                           </button>
                         </div>
                       </div>
@@ -128,8 +142,10 @@
                     <input
                       type="button"
                       name="next"
+                      :disabled="!basicInfoSubmitted"
+                      :class="{disabled: !basicInfoSubmitted}"
                       class="next action-button"
-                      value="Next"
+                      value="Siguiente"
                     />
                   </fieldset>
                   <!-- Service -->
@@ -265,3 +281,156 @@
     <!-- Register Step Form area end -->
   </div>
 </template>
+
+
+<script>
+import {email,phoneNumber} from '~/helpers/fieldValidations.js'
+export default {
+  middleware: ['userIsLogged', "userIsCollector"],
+  computed: {
+    user() {
+      return this.$store.state.user
+    },
+  },
+  data() {
+    return {
+      fromHasErrors: {
+        email: false,
+        phone: false,
+        firstName: false,
+        lastName: false,
+      },
+      formErrors: [],
+    }
+  },
+  async asyncData({store}) {
+    // Update basic information
+    const SPLIT_NAME = store.state.user.displayName.split(' ');
+    const FIRST_NAME = store.state.user.firstName ? store.state.user.firstName : SPLIT_NAME[0];
+    const LAST_NAME = SPLIT_NAME[SPLIT_NAME.length - 1];
+
+    let basicInformation =  {
+      firstName: FIRST_NAME,
+      lastName: LAST_NAME,
+      email: store.state.user.email,
+      phone: store.state.user.phone ? store.state.user.phone : '',
+    }
+
+    let basicInfoSubmitted = true;
+    // Iterate through the properties of the object
+    for (const field in basicInformation) {
+      console.log(field, !basicInformation.hasOwnProperty(field) || !basicInformation[field])
+      if (!basicInformation.hasOwnProperty(field) || !basicInformation[field]) {
+        basicInfoSubmitted = false
+      }
+    }
+
+      return {
+        basicInformation,
+        basicInfoSubmitted
+      }
+  },
+  methods: {
+    // This function will update the user basic information
+    async submitBasicInformation(e) {
+      // Show loader first
+      this.$helpers.switchLoader(true);
+      // Validate all properties are complete
+      const ERRORS = this.validateProperties();
+      if(ERRORS) {
+        // Stop loader and show error message
+        this.$helpers.switchLoader(false);
+        return alert(ERRORS);
+      } 
+
+      try {
+        // Submit information in firebase
+        await this.$fire.database.ref(`users/${this.user.uid}`).update({
+          ...this.basicInformation
+        })
+
+        // Enable "next" button
+        this.basicInfoSubmitted = true;
+
+        // Show success message
+        this.$toast.success('La informacion se guardo con exito')
+      } catch (e) {
+        // Hide loader
+        // handle the error
+        console.error('Error trying to sign up user: ', e.message)
+        this.formErrors.push(e.message)
+        // Show error message
+        this.$toast.error(`Hubo un error tratando de guardar la informacion: ${e.message}. Si no reconoce este mensaje comuniquese con nosotros.`)
+      }
+
+      // Hide loader on the end of the function
+      this.$helpers.switchLoader(false);
+
+    },
+    // The main important value retrieved here will be the collector id
+    async getCollector() {
+      return (await $fire.database.ref('collectors').orderByChild('user_uid').equalTo(this.user.uid).get()).val()
+    },
+    // For now this represents basic validation
+    validateProperties() {
+      // First name
+      if(
+        typeof this.basicInformation.firstName !== 'string' || 
+        !this.basicInformation.firstName.length) {
+          this.fromHasErrors.firstName = true;
+      }
+
+      // Last name
+      if(
+        typeof this.basicInformation.lastName !== 'string' || 
+        !this.basicInformation.lastName.length) {
+          this.fromHasErrors.lastName = true;
+      }
+
+      // Email
+      if(
+        typeof email(this.basicInformation.email) == 'string'
+      ) {
+          this.fromHasErrors.email = true;
+      }
+
+      // Phone and format
+      if(
+        typeof phoneNumber(this.basicInformation.phone) == 'string'
+      ) {
+          this.basicInformation.phone = ''
+          this.fromHasErrors.phone = true;
+      }
+
+      //? If some values is false in fromHasErrors, then return error 
+
+      // Create an array to store failed fields
+      const failedFields = [];
+      // Iterate through the properties of the object
+      for (const field in this.fromHasErrors) {
+        if (this.fromHasErrors.hasOwnProperty(field) && this.fromHasErrors[field]) {
+          failedFields.push(field);
+        }
+      }
+
+      // Create an error message if any fields failed
+      if (failedFields.length > 0)
+        return `The following fields are invalid: ${failedFields.join(', ')}`;
+
+      return false;
+
+    },
+    handleError(val) {
+      // Change object status
+      this.fromHasErrors[val.name] = val.hasErrors
+    }
+  }
+}
+</script>
+
+<style>
+.custom-error {
+  position: relative;
+  top: 1.2rem
+}
+</style>

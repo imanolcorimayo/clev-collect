@@ -21,19 +21,8 @@ export const mutations = {
    * @param {*} param1 
    */
   ON_AUTH_STATE_CHANGED_MUTATION(state, user) {
-    // you can request additional fields if they are optional (e.g. photoURL)
-    const { uid, email, emailVerified, displayName, photoURL } = user
-  
     // Change user's information
-    state.user = {
-      uid,
-      displayName,
-      email,
-      emailVerified,
-      photoURL: photoURL || null, // results in photoURL being null for server auth
-      // use custom claims to control access (see https://firebase.google.com/docs/auth/admin/custom-claims)
-      // isAdmin: claims.custom_claim
-    }
+    state.user = user;
 
     // Changes isLogged property
     state.isLogged = true;
@@ -71,7 +60,7 @@ export const mutations = {
 
 // The actions that will trigger a mutation. any of this can be called by $store.dispatch("booking/{actionName}", {actionData})
 export const actions = {
-  async onAuthStateChangedAction({ commit, dispatch }, { authUser, claims }) {
+  async onAuthStateChangedAction({ commit, dispatch }, { authUser, claims, $fire }) {
     if (!authUser) {
       await dispatch('cleanupAction')
       return
@@ -79,16 +68,21 @@ export const actions = {
 
     // you can request additional fields if they are optional (e.g. photoURL)
     const { uid, email, emailVerified, displayName, photoURL } = authUser
-  
+
+    // Retrieve entirely user information using uid
+    const USER_COMPLETE_INFORMATION = (await $fire.database.ref(`users/${uid}`).get()).val();
+
     commit('ON_AUTH_STATE_CHANGED_MUTATION', {
       uid,
       email,
       emailVerified,
       displayName,
-      photoURL, // results in photoURL being undefined for server auth
-      // use custom claims to control access (see https://firebase.google.com/docs/auth/admin/custom-claims)
-      // isAdmin: claims.custom_claim
+      photoURL,
+      ...USER_COMPLETE_INFORMATION 
     })
+    // results in photoURL being undefined for server auth
+    // use custom claims to control access (see https://firebase.google.com/docs/auth/admin/custom-claims)
+    // isAdmin: claims.custom_claim
   },
   async onIdTokenChangedAction({ commit }, data) {
     if (!authUser) {
@@ -102,7 +96,7 @@ export const actions = {
     commit('LOG_OUT')
     
   },
-  async nuxtServerInit({ dispatch, commit }, { res }) {
+  async nuxtServerInit({ dispatch, commit }, { res, $fire }) {
     // Way to get entirely user object from firebase (See docs https://firebase.nuxtjs.org/tutorials/ssr.html)
     if (res && res.locals && res.locals.user) {
       const { allClaims: claims, idToken: token, ...authUser } = res.locals.user
@@ -110,7 +104,8 @@ export const actions = {
       await dispatch('onAuthStateChangedAction', {
         authUser,
         claims,
-        token
+        token,
+        $fire
       })
     }
   }

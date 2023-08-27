@@ -73,7 +73,7 @@
 
 <script>
 export default {
-  middleware: ['userIsLogged', 'quizTaken'],
+  middleware: ['userIsLogged', 'quizTaken', 'avoidPage'],
   computed: {
     user() {
       return this.$store.state.user
@@ -133,7 +133,7 @@ export default {
         collector_status: 'QUIZ_FAILED' 
       })
 
-      this.$route.push('become-collector/welcome')
+      this.$router.push('/become-collector/welcome')
     },
     /**
      * This function will receive the answers and will work as a reference for the 
