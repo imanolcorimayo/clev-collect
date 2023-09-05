@@ -36,19 +36,19 @@
               <div class="registration-step-form margin-top-55">
                 <form id="msform-two" class="msform">
                   <ul class="registration-list step-list-two">
-                    <li class="list active">
+                    <li class="list" :class="{active: step == 1}">
                       <a class="list-click" href="javascript:void(0)"> 1 </a>
                     </li>
-                    <li class="list">
+                    <li class="list" :class="{active: step == 2}">
                       <a class="list-click" href="javascript:void(0)"> 2 </a>
                     </li>
-                    <li class="list">
+                    <li class="list" :class="{active: step == 3}">
                       <a class="list-click" href="javascript:void(0)"> 3 </a>
                     </li>
-                    <li class="list">
+                    <li class="list" :class="{active: step == 4}">
                       <a class="list-click" href="javascript:void(0)"> 4 </a>
                     </li>
-                    <li class="list">
+                    <li class="list" :class="{active: step == 5}">
                       <a class="list-click" href="javascript:void(0)"> 5 </a>
                     </li>
                   </ul>
@@ -224,26 +224,17 @@
                         <div class="info-service">
                           <div class="single-info-service margin-top-30">
                             <div class="single-content">
-                              <label class="forms-label"> Service City* </label>
+                              <label class="forms-label"> Provincia* </label>
                               <select>
-                                <option value="1">London</option>
-                                <option value="2">Barcelona</option>
-                                <option value="3">Washington</option>
-                                <option value="4">Tokyo</option>
-                                <option value="5">Paris</option>
+                                <option value="1">Buenos Aires</option>
+                                <option value="2">Córdoba</option>
                               </select>
                             </div>
                           </div>
                           <div class="single-info-service margin-top-30">
                             <div class="single-content">
-                              <label class="forms-label"> Service Area* </label>
-                              <select>
-                                <option value="1">London</option>
-                                <option value="2">Barcelona</option>
-                                <option value="3">Washington</option>
-                                <option value="4">Tokyo</option>
-                                <option value="5">Paris</option>
-                              </select>
+                              <label class="forms-label"> Area de recolección* </label>
+                              <div> Map </div>
                             </div>
                           </div>
                         </div>
@@ -369,7 +360,6 @@ export default {
     const LAST_NAME = SPLIT_NAME[SPLIT_NAME.length - 1];
 
     const RECYCLER_INFORMATION = (await $fire.database.ref('collectors').orderByChild('user_uid').equalTo(store.state.user.uid).get()).val();
-     
 
     let basicInformation =  {
       firstName: FIRST_NAME,
@@ -386,11 +376,19 @@ export default {
       }
     }
 
-      return {
-        basicInformation,
-        basicInfoSubmitted,
-        recyclerInformation: RECYCLER_INFORMATION
-      }
+    // Get the recycler id
+    const RECYCLER_ID = Object.keys(RECYCLER_INFORMATION)[0]
+
+    return {
+      basicInformation,
+      basicInfoSubmitted,
+      recyclerId: RECYCLER_ID,
+      recyclerInformation: RECYCLER_INFORMATION,
+      listing: {
+        listingTitle: RECYCLER_INFORMATION[RECYCLER_ID].listingTitle ? RECYCLER_INFORMATION[RECYCLER_ID].listingTitle : '',
+        listingBio: RECYCLER_INFORMATION[RECYCLER_ID].listingBio ? RECYCLER_INFORMATION[RECYCLER_ID].listingBio : ''
+      },
+    }
   },
   computed: {
     user() {
@@ -411,10 +409,6 @@ export default {
         listingBio: false
       },
       listingBioErrorMessage: '',
-      listing: {
-        listingTitle: '',
-        listingBio: ''
-      },
     }
   },
   methods: {
@@ -523,8 +517,7 @@ export default {
       try {
 
         // Update recycler information in firebase
-        const RECYCLER_ID = Object.keys(this.recyclerInformation)[0];
-        await this.$fire.database.ref(`collectors/${RECYCLER_ID}`)
+        await this.$fire.database.ref(`collectors/${this.recyclerId}`)
           .update({
             ...this.listing
         })
@@ -545,7 +538,6 @@ export default {
       this.goToNext();
     },
     validateListing(type) {
-
       // Listing title
       if(
         (typeof this.listing.listingTitle !== 'string' || 

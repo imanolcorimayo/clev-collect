@@ -8,8 +8,10 @@ export default async function ({$fire, store, redirect, route}) {
 
         if(route.path && route.path.includes('complete-application')) {
             // Create collector profile with status signed up and return
-            // TODO: Create collector in database
-
+            await $fire.database.ref(`collectors`).push({
+                user_uid: store.state.user.uid,
+                collector_status: 'QUIZ_PASSED' 
+            })
             return;
         }
         // If not, just redirect to home
