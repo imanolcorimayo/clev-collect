@@ -218,14 +218,15 @@
                   </transition>
                   <!-- Service -->
                   <transition name="fade" mode="out-in">
-                    <fieldset  v-if="step == 3" class="fieldset-service">
+                    <fieldset  v-show="step == 3" class="fieldset-service">
                       <div class="information-all margin-top-55">
                         <h3 class="register-title">Service Area</h3>
                         <div class="info-service">
                           <div class="single-info-service margin-top-30">
                             <div class="single-content">
                               <label class="forms-label"> Provincia* </label>
-                              <select>
+                              <select class="form-select" aria-label="Default select example">
+                                <option selected disabled hidden>Elegi la provincia donde trabajaras</option>
                                 <option value="1">Buenos Aires</option>
                                 <option value="2">Córdoba</option>
                               </select>
@@ -234,7 +235,9 @@
                           <div class="single-info-service margin-top-30">
                             <div class="single-content">
                               <label class="forms-label"> Area de recolección* </label>
-                              <div> Map </div>
+                              <div class="map-container">
+                                <div id="area-map" style="width: 25rem;height: 25rem;"></div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -397,7 +400,7 @@ export default {
   },
   data() {
     return {
-      step: 1,
+      step: 3,
       fromHasErrors: {
         email: false,
         phone: false,
@@ -410,6 +413,9 @@ export default {
       },
       listingBioErrorMessage: '',
     }
+  },
+  mounted() {
+    this.$d3.createServiceAreaMap(3000, 'area-map', [-31.416668, -64.183334], 11)
   },
   methods: {
     // This function will update the user basic information
@@ -517,10 +523,23 @@ export default {
       try {
 
         // Update recycler information in firebase
-        await this.$fire.database.ref(`collectors/${this.recyclerId}`)
-          .update({
-            ...this.listing
-        })
+        // Update only if something changed
+        if(
+          !this.recyclerInformation[this.recyclerId].listingTitle ||
+          !this.recyclerInformation[this.recyclerId].listingBio ||
+          this.recyclerInformation[this.recyclerId].listingTitle != this.listing.listingTitle ||
+          this.recyclerInformation[this.recyclerId].listingBio != this.listing.listingBio
+        ) {
+          // Update local object
+          this.recyclerInformation[this.recyclerId].listingTitle = this.listing.listingTitle
+          this.recyclerInformation[this.recyclerId].listingBio = this.listing.listingBio
+
+          // Update database
+          await this.$fire.database.ref(`collectors/${this.recyclerId}`)
+            .update({
+              ...this.listing
+          })
+        }
 
         // Show success message
         this.$toast.success('La informacion se guardo con exito')
@@ -612,5 +631,22 @@ export default {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
   opacity: 0;
+}
+
+.map-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.map-container #area-map {
+    width: 100%; /* Adjust the width as needed */
+    max-width: 600px; /* Set a maximum width if desired */
+    padding: 10px; /* Add padding to create space around the map */
+    border: 1px solid #ddd; /* Add a border with a light gray color */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
 }
 </style>

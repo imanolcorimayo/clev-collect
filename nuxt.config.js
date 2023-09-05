@@ -35,6 +35,7 @@ export default {
     { src: '@/plugins/js/jquery-3.6.0.min.js', ssr: false},
     { src: '@/plugins/js/jquery-migrate.min.js', ssr:false},
     { src: '@/plugins/js/slick.js', ssr:false},
+    { src: "@/plugins/dynamic-map.js", ssr: false},
     { src: '@/plugins/js/jquery.nice-select.js', ssr:false},
     { src: '@/plugins/js/jquery.nicescroll.min.js', ssr:false},
     { src: '@/plugins/js/chart.js', ssr:false},
@@ -138,6 +139,10 @@ export default {
 
   toast: {
     position: 'top-center',
+    duration: 3000,
+    keepOnHover: true,
+    singleton: true,
+    theme: "bubble",
     register: [ // Register custom toasts
       {
         name: 'my-error',
