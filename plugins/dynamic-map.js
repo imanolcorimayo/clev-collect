@@ -29,7 +29,7 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
     }
 
     // Service area map, selecting area to serve collection
-    async function createServiceAreaMap(circleRadius = 20, divClass, initialCoordinates, zoom) {
+    async function createServiceAreaMap(divClass, serviceArea, zoom) {
       // Load leaflet library if no exists
       await loadLeaflet();
       const L = window.L;
@@ -61,11 +61,11 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
       removeIfExist(document.getElementById(divClass));
   
       // Creating map
-      const map = createMap(L, initialCoordinates, zoom, divClass);
+      const map = createMap(L, serviceArea.center, zoom, divClass);
       const featureGroup = L.featureGroup().addTo(map.value);
 
       // Create the marker
-      const CIRCLE = L.circle(initialCoordinates, {radius: circleRadius}).addTo(featureGroup);
+      const CIRCLE = L.circle(serviceArea.center, {radius: serviceArea.radius}).addTo(featureGroup);
 
       var isDragging = false
 
@@ -74,29 +74,20 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
         map.value.dragging.disable();
       });
 
-      var circleCoordinates = initialCoordinates;
-      
       map.value.on('mousemove', function (event) {
         if (isDragging) {
           // Calculate the distance between the center and the current mouse position
-          const distance = map.value.distance(circleCoordinates, event.latlng);
+          serviceArea.radius = map.value.distance(serviceArea.center, event.latlng);
 
-          console.log("distance: ", distance)
-      
-          // Calculate the new radius based on the distance
-          const newRadius = circleRadius * (distance/10000) + distance;
-
-          console.log("new : ",newRadius)
-      
           // Update the circle's radius
-          CIRCLE.setRadius(newRadius);
+          CIRCLE.setRadius(serviceArea.radius);
         }
       });
 
       map.value.on('drag', function () {
-        circleCoordinates = map.value.getCenter();
-        CIRCLE.setLatLng(circleCoordinates);
-        console.log('center', circleCoordinates)
+        const AUX = map.value.getCenter();
+        serviceArea.center = [AUX.lat, AUX.lng];
+        CIRCLE.setLatLng(AUX);
       });
       
       map.value.on('mouseup', function () {

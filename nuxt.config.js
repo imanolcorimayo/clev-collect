@@ -36,7 +36,6 @@ export default {
     { src: '@/plugins/js/jquery-migrate.min.js', ssr:false},
     { src: '@/plugins/js/slick.js', ssr:false},
     { src: "@/plugins/dynamic-map.js", ssr: false},
-    { src: '@/plugins/js/jquery.nice-select.js', ssr:false},
     { src: '@/plugins/js/jquery.nicescroll.min.js', ssr:false},
     { src: '@/plugins/js/chart.js', ssr:false},
     { src: '@/plugins/js/main.js', ssr:false},

@@ -225,10 +225,9 @@
                           <div class="single-info-service margin-top-30">
                             <div class="single-content">
                               <label class="forms-label"> Provincia* </label>
-                              <select class="form-select" aria-label="Default select example">
-                                <option selected disabled hidden>Elegi la provincia donde trabajaras</option>
-                                <option value="1">Buenos Aires</option>
-                                <option value="2">Córdoba</option>
+                              <select v-model="serviceArea.state" @change="createMap()" class="form-select">
+                                <option value="buenos-aires">Buenos Aires</option>
+                                <option value="cordoba">Córdoba</option>
                               </select>
                             </div>
                           </div>
@@ -247,6 +246,7 @@
                         name="next"
                         class="next action-button"
                         value="Next"
+                        @click="submitServiceArea"
                       />
                       <input
                         type="button"
@@ -400,6 +400,11 @@ export default {
   },
   data() {
     return {
+      serviceArea: {
+        center: [-31.416668, -64.183334],
+        radius: 3000,
+        state: 'cordoba'
+      },
       step: 3,
       fromHasErrors: {
         email: false,
@@ -415,7 +420,7 @@ export default {
     }
   },
   mounted() {
-    this.$d3.createServiceAreaMap(3000, 'area-map', [-31.416668, -64.183334], 11)
+    this.createMap();
   },
   methods: {
     // This function will update the user basic information
@@ -601,13 +606,53 @@ export default {
       this.listingErrors[val.name] = val.hasErrors
     },
 
+    /** Service area functions */
+    async submitServiceArea() {
+      // Show loader first
+      this.$helpers.switchLoader(true);
+
+      try {
+
+        // Update database
+        await this.$fire.database.ref(`collectors/${this.recyclerId}`)
+          .update({
+            ...this.serviceArea
+        })
+
+        // Show success message
+        this.$toast.success('La informacion se guardo con exito')
+      } catch (e) {
+        // Hide loader
+        // handle the error
+        console.error('Error trying to sign up user: ', e.message)
+        // Show error message
+        this.$toast.error(`Hubo un error tratando de guardar la informacion: ${e.message}. Si no reconoce este mensaje comuniquese con nosotros.`)
+      }
+
+      // Hide loader on the end of the function
+      this.$helpers.switchLoader(false);
+      this.goToNext();
+    },
+    createMap() {
+      const COORDINATES = {
+        'buenos-aires': [-34.603722, -58.381592],
+        'cordoba': [-31.416668, -64.183334],
+      } 
+
+      // Change coordinates
+      this.serviceArea.center = COORDINATES[this.serviceArea.state];
+
+      // Create map
+      this.$d3.createServiceAreaMap('area-map', this.serviceArea, 11)
+    },
+
     /** Form management functions */
     goToNext() {
       this.step++
     },
     goToPrev() {
       this.step--
-    }
+    },
   }
 }
 </script>
