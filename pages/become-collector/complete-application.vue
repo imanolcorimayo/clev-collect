@@ -236,6 +236,25 @@
                               <label class="forms-label"> Area de recolección* </label>
                               <div class="map-container">
                                 <div id="area-map" style="width: 25rem;height: 25rem;"></div>
+                                <div id="banner" 
+                                  style="
+                                    width: 200px;
+                                    position: absolute; 
+                                    z-index: 999; 
+                                    background-color: rgba(51, 136, 255, 0.7); 
+                                    border: 2px solid rgba(255, 255, 255, 0.8); 
+                                    padding: 10px; 
+                                    border-radius: 10px; 
+                                    box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.2); 
+                                    color: white; 
+                                    font-family: Arial, sans-serif; 
+                                    font-size: 14px; 
+                                    text-align: center;
+                                    top: 0px;
+                                    right: 0px;"
+                                >
+                                  <span id="bannerContent"></span>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -259,7 +278,7 @@
                   </transition>
                   <!-- Terms & Condition -->
                   <transition name="fade" mode="out-in">
-                    <fieldset v-if="step == 4" class="fieldset-condition">
+                    <fieldset v-if="step == 4" class="fieldset-linkedin-cv">
                       <div class="information-all margin-top-55">
                         <h3 class="register-title">Terms and Conditions</h3>
                         <div class="condition-info">
@@ -303,15 +322,17 @@
                       </div>
                       <input
                         type="button"
-                        name="submit"
+                        name="next"
                         class="next action-button"
-                        value="Submit"
+                        value="Next"
+                        @click="submitServiceArea"
                       />
                       <input
                         type="button"
                         name="previous"
                         class="previous action-button-previous"
                         value="Previous"
+                        @click="goToPrev"
                       />
                     </fieldset>
                   </transition>
@@ -391,6 +412,11 @@ export default {
         listingTitle: RECYCLER_INFORMATION[RECYCLER_ID].listingTitle ? RECYCLER_INFORMATION[RECYCLER_ID].listingTitle : '',
         listingBio: RECYCLER_INFORMATION[RECYCLER_ID].listingBio ? RECYCLER_INFORMATION[RECYCLER_ID].listingBio : ''
       },
+      serviceArea: {
+        center: RECYCLER_INFORMATION[RECYCLER_ID].center ? RECYCLER_INFORMATION[RECYCLER_ID].center : [-31.416668, -64.183334],
+        radius: RECYCLER_INFORMATION[RECYCLER_ID].radius ? RECYCLER_INFORMATION[RECYCLER_ID].radius : 3000,
+        state: RECYCLER_INFORMATION[RECYCLER_ID].state ? RECYCLER_INFORMATION[RECYCLER_ID].state : 'cordoba'
+      },
     }
   },
   computed: {
@@ -400,12 +426,7 @@ export default {
   },
   data() {
     return {
-      serviceArea: {
-        center: [-31.416668, -64.183334],
-        radius: 3000,
-        state: 'cordoba'
-      },
-      step: 3,
+      step: 5,
       fromHasErrors: {
         email: false,
         phone: false,
@@ -420,7 +441,9 @@ export default {
     }
   },
   mounted() {
-    this.createMap();
+    if(this.step == 3) {
+      this.createMap()
+    }
   },
   methods: {
     // This function will update the user basic information
@@ -613,6 +636,8 @@ export default {
 
       try {
 
+        console.log(this.serviceArea)
+
         // Update database
         await this.$fire.database.ref(`collectors/${this.recyclerId}`)
           .update({
@@ -633,14 +658,14 @@ export default {
       this.$helpers.switchLoader(false);
       this.goToNext();
     },
-    createMap() {
+    createMap(switchCoordinates = false) {
       const COORDINATES = {
         'buenos-aires': [-34.603722, -58.381592],
         'cordoba': [-31.416668, -64.183334],
       } 
 
       // Change coordinates
-      this.serviceArea.center = COORDINATES[this.serviceArea.state];
+      if(switchCoordinates) this.serviceArea.center = COORDINATES[this.serviceArea.state];
 
       // Create map
       this.$d3.createServiceAreaMap('area-map', this.serviceArea, 11)
@@ -649,9 +674,22 @@ export default {
     /** Form management functions */
     goToNext() {
       this.step++
+
+      if(this.step == 3) {
+        setTimeout(() => {
+          console.log('some')
+          this.createMap()
+        },500)
+      }
     },
     goToPrev() {
       this.step--
+      if(this.step == 3) {
+        setTimeout(() => {
+          console.log('some')
+          this.createMap()
+        },500)
+      }
     },
   }
 }
@@ -683,12 +721,13 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  position: relative;
 }
 
 .map-container #area-map {
     width: 100%; /* Adjust the width as needed */
-    max-width: 600px; /* Set a maximum width if desired */
+    max-width: 800px; /* Set a maximum width if desired */
+    height: 800px; /* Set a maximum width if desired */
     padding: 10px; /* Add padding to create space around the map */
     border: 1px solid #ddd; /* Add a border with a light gray color */
     border-radius: 8px; /* Rounded corners */

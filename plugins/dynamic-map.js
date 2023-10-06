@@ -56,6 +56,24 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
         container.value = map;
         return container;
       };
+
+      // Function to update banner content and position
+      const updateBanner = function() {
+        const banner = document.getElementById('banner');
+        const bannerContent = document.getElementById('bannerContent');
+
+        const LAT = serviceArea.center[0].toFixed(2);
+        const LNG = serviceArea.center[1].toFixed(2);
+        const DISTANCE = (serviceArea.radius / 1000).toFixed(2);
+
+        // Update banner content
+        let content = `Center: [${LAT}, ${LNG}] <br> Radius: ${DISTANCE} km`;
+        bannerContent.innerHTML = content;
+
+        // Position the banner at the center of the circle
+        banner.style.top = '0px';
+        banner.style.right = '0px';
+      };
   
       // Check if already exist and delete it to avoid conflicts
       removeIfExist(document.getElementById(divClass));
@@ -77,10 +95,14 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
       map.value.on('mousemove', function (event) {
         if (isDragging) {
           // Calculate the distance between the center and the current mouse position
-          serviceArea.radius = map.value.distance(serviceArea.center, event.latlng);
+          // Round 2 decimals
+          serviceArea.radius = Math.round(map.value.distance(serviceArea.center, event.latlng) * 100) / 100 ;
 
           // Update the circle's radius
           CIRCLE.setRadius(serviceArea.radius);
+
+          // Update message in the center of the circle
+          updateBanner();
         }
       });
 
@@ -88,6 +110,9 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
         const AUX = map.value.getCenter();
         serviceArea.center = [AUX.lat, AUX.lng];
         CIRCLE.setLatLng(AUX);
+
+        // Update message in the center of the circle
+        updateBanner();
       });
       
       map.value.on('mouseup', function () {
@@ -95,6 +120,8 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
         map.value.dragging.enable();
       });
 
+      // Update message in the center of the circle
+      updateBanner();
     }
 
     /** Potentially useful functions for the future */
