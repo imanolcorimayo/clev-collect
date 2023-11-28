@@ -9,7 +9,7 @@
 # Alignments
 # Clearings
 # Sections
-    ## Nav bar 
+    ## Nav bar
     ## Banner Area
     ## Category area
     ## Service area
@@ -64,13 +64,13 @@
 # Normalize
 --------------------------------------------------------------*/
 :root {
-  --main-color-one: #1DBF73;
+  --main-color-one: #CDF27E;
   --main-color-one-rgb: 29, 191, 115;
-  --main-color-two: #47C8ED;
+  --main-color-two: #CCA38F;
   --main-color-two-rgb: 71, 200, 237;
   --main-color-three: #FF6B2C;
   --main-color-three-rgb: 255, 107, 44;
-  --heading-color: #333333;
+  --heading-color: #424A59;
   --light-color: #666666;
   --extra-light-color: #999999;
   --heading-font: "Source Sans Pro", sans-serif;
@@ -1381,7 +1381,7 @@ code {
 }
 
 /*----------------------------------------------
-    # Nav bar 
+    # Nav bar
 ----------------------------------------------*/
 .white .click_show_icon {
   color: rgba(255, 255, 255, 0.8);

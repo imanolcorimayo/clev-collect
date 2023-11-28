@@ -414,7 +414,7 @@
                         </div>
                       </div>
                       <div class="btn-wrapper text-center margin-top-35">
-                        <NuxtLink :to="`collector/${recyclerId}`" class="cmn-btn btn-bg-1"> Go to profile</NuxtLink>
+                        <NuxtLink :to="`/collector/${recyclerId}`" class="cmn-btn btn-bg-1"> Go to profile</NuxtLink>
                       </div>
                     </fieldset>
                   </transition>
