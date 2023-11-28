@@ -11096,10 +11096,6 @@ code {
   text-align: left;
 }
 
-.msform fieldset:not(:first-of-type) {
-  display: none;
-}
-
 .msform .action-button {
   background: var(--main-color-one);
   font-weight: 500;

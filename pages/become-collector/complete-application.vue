@@ -6,7 +6,9 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="banner-inner-contents text-center">
-              <h2 class="banner-inner-title">Registrate y se parte de esta comunidad</h2>
+              <h2 class="banner-inner-title">
+                Registrate y se parte de esta comunidad
+              </h2>
             </div>
           </div>
         </div>
@@ -36,19 +38,19 @@
               <div class="registration-step-form margin-top-55">
                 <form id="msform-two" class="msform">
                   <ul class="registration-list step-list-two">
-                    <li class="list" :class="{active: step == 1}">
+                    <li class="list" :class="{ active: step == 1 }">
                       <a class="list-click" href="javascript:void(0)"> 1 </a>
                     </li>
-                    <li class="list" :class="{active: step == 2}">
+                    <li class="list" :class="{ active: step == 2 }">
                       <a class="list-click" href="javascript:void(0)"> 2 </a>
                     </li>
-                    <li class="list" :class="{active: step == 3}">
+                    <li class="list" :class="{ active: step == 3 }">
                       <a class="list-click" href="javascript:void(0)"> 3 </a>
                     </li>
-                    <li class="list" :class="{active: step == 4}">
+                    <li class="list" :class="{ active: step == 4 }">
                       <a class="list-click" href="javascript:void(0)"> 4 </a>
                     </li>
-                    <li class="list" :class="{active: step == 5}">
+                    <li class="list" :class="{ active: step == 5 }">
                       <a class="list-click" href="javascript:void(0)"> 5 </a>
                     </li>
                   </ul>
@@ -57,9 +59,10 @@
                     <fieldset v-if="step == 1" class="fieldset-info">
                       <div class="information-all margin-top-55">
                         <h3 class="register-title">Información básica</h3>
-                        <span class="section-para"> 
-                          Te pedimos esta informacion para poder estar en contacto contigo por cualquier 
-                          situacion que lo pueda requerir. 
+                        <span class="section-para">
+                          Te pedimos esta informacion para poder estar en
+                          contacto contigo por cualquier situacion que lo pueda
+                          requerir.
                         </span>
                         <div class="info-forms">
                           <div class="single-forms">
@@ -120,8 +123,12 @@
                                 error-class="text-danger custom-error"
                                 type="tel"
                                 name="phone"
-                                maxlength=14
-                                :error="fromHasErrors.phone ? 'Número inválido.' : null"
+                                maxlength="14"
+                                :error="
+                                  fromHasErrors.phone
+                                    ? 'Número inválido.'
+                                    : null
+                                "
                                 placeholder="Ingresá tu telefono"
                                 validation="required|max:14,length"
                                 validation-name="Telefono"
@@ -130,8 +137,8 @@
                             </div>
                           </div>
                           <div class="btn-wrapper margin-top-40">
-                            <button 
-                              @click="submitBasicInformation" 
+                            <button
+                              @click="submitBasicInformation"
                               class="cmn-button btn-bg-1"
                               form="noForm"
                             >
@@ -145,7 +152,7 @@
                         name="next"
                         @click="goToNext"
                         :disabled="!basicInfoSubmitted"
-                        :class="{disabled: !basicInfoSubmitted}"
+                        :class="{ disabled: !basicInfoSubmitted }"
                         class="next action-button"
                         value="Siguiente"
                       />
@@ -159,7 +166,9 @@
                         <div class="info-service single-forms">
                           <div class="single-info-service margin-top-30">
                             <div class="single-content">
-                              <label class="forms-label"> Titulo de perfil como recolector </label>
+                              <label class="forms-label">
+                                Titulo de perfil como recolector
+                              </label>
                               <FormulateInput
                                 type="text"
                                 error-behavior="live"
@@ -172,15 +181,19 @@
                                 :maxlength="64"
                                 name="listingTitle"
                                 :error="
-                                  (listingErrors.listingTitle ? 
-                                  'Este campo no puede estar vacío' : null)"    
+                                  listingErrors.listingTitle
+                                    ? 'Este campo no puede estar vacío'
+                                    : null
+                                "
                                 required
                               />
                             </div>
                           </div>
                           <div class="single-info-service margin-top-30">
                             <div class="single-content">
-                              <label class="forms-label"> Biografia que resume tu perfil de reciclador </label>
+                              <label class="forms-label">
+                                Biografia que resume tu perfil de reciclador
+                              </label>
                               <FormulateInput
                                 @validation="listingErrors"
                                 @input="validateListing('bio')"
@@ -193,8 +206,11 @@
                                 label="Listing Bio"
                                 name="listingBio"
                                 :error="
-                                  (listingErrors.listingBio ? 
-                                  listingBioErrorMessage : null)"                              required
+                                  listingErrors.listingBio
+                                    ? listingBioErrorMessage
+                                    : null
+                                "
+                                required
                               />
                             </div>
                           </div>
@@ -218,40 +234,54 @@
                   </transition>
                   <!-- Service -->
                   <transition name="fade" mode="out-in">
-                    <fieldset  v-show="step == 3" class="fieldset-service">
+                    <fieldset v-show="step == 3" class="fieldset-service">
                       <div class="information-all margin-top-55">
                         <h3 class="register-title">Service Area</h3>
                         <div class="info-service">
                           <div class="single-info-service margin-top-30">
                             <div class="single-content">
                               <label class="forms-label"> Provincia* </label>
-                              <select v-model="serviceArea.state" @change="createMap()" class="form-select">
-                                <option value="buenos-aires">Buenos Aires</option>
+                              <select
+                                v-model="serviceArea.state"
+                                @change="createMap()"
+                                class="form-select"
+                              >
+                                <option value="buenos-aires">
+                                  Buenos Aires
+                                </option>
                                 <option value="cordoba">Córdoba</option>
                               </select>
                             </div>
                           </div>
                           <div class="single-info-service margin-top-30">
                             <div class="single-content">
-                              <label class="forms-label"> Area de recolección* </label>
+                              <label class="forms-label">
+                                Area de recolección*
+                              </label>
                               <div class="map-container">
-                                <div id="area-map" style="width: 25rem;height: 25rem;"></div>
-                                <div id="banner" 
+                                <div
+                                  id="area-map"
+                                  style="width: 25rem; height: 25rem"
+                                ></div>
+                                <div
+                                  id="banner"
                                   style="
                                     width: 200px;
-                                    position: absolute; 
-                                    z-index: 999; 
-                                    background-color: rgba(51, 136, 255, 0.7); 
-                                    border: 2px solid rgba(255, 255, 255, 0.8); 
-                                    padding: 10px; 
-                                    border-radius: 10px; 
-                                    box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.2); 
-                                    color: white; 
-                                    font-family: Arial, sans-serif; 
-                                    font-size: 14px; 
+                                    position: absolute;
+                                    z-index: 999;
+                                    background-color: rgba(51, 136, 255, 0.7);
+                                    border: 2px solid rgba(255, 255, 255, 0.8);
+                                    padding: 10px;
+                                    border-radius: 10px;
+                                    box-shadow: 0px 0px 10px 3px
+                                      rgba(0, 0, 0, 0.2);
+                                    color: white;
+                                    font-family: Arial, sans-serif;
+                                    font-size: 14px;
                                     text-align: center;
                                     top: 0px;
-                                    right: 0px;"
+                                    right: 0px;
+                                  "
                                 >
                                   <span id="bannerContent"></span>
                                 </div>
@@ -278,10 +308,10 @@
                   </transition>
                   <!-- Terms & Condition -->
                   <transition name="fade" mode="out-in">
-                    <fieldset v-if="step == 4" class="fieldset-linkedin-cv">
+                    <fieldset v-if="step == 4" class="fieldset-terms-condition">
                       <div class="information-all margin-top-55">
                         <h3 class="register-title">Terms and Conditions</h3>
-                        <div class="condition-info">
+                        <div class="single-info-service condition-info">
                           <div class="single-condition margin-top-30">
                             <div class="condition-content">
                               <div class="checkbox-inlines">
@@ -291,11 +321,11 @@
                                   id="check9"
                                 />
                                 <label class="checkbox-label" for="check9">
-                                  It is a long established fact that a reader will
-                                  be distracted by the readable content of a page
-                                  when looking at its layout. The point of using
-                                  Lorem Ipsum is that it has a more-or-less
-                                  normal.
+                                  It is a long established fact that a reader
+                                  will be distracted by the readable content of
+                                  a page when looking at its layout. The point
+                                  of using Lorem Ipsum is that it has a
+                                  more-or-less normal.
                                 </label>
                               </div>
                             </div>
@@ -309,13 +339,39 @@
                                   id="check10"
                                 />
                                 <label class="checkbox-label" for="check10">
-                                  It is a long established fact that a reader will
-                                  be distracted by the readable content of a page
-                                  when looking at its layout. The point of using
-                                  Lorem Ipsum is that it has a more-or-less
-                                  normal.
+                                  It is a long established fact that a reader
+                                  will be distracted by the readable content of
+                                  a page when looking at its layout. The point
+                                  of using Lorem Ipsum is that it has a
+                                  more-or-less normal.
                                 </label>
                               </div>
+                            </div>
+                          </div>
+                          <div class="single-info-service margin-top-30">
+                            <div class="info-service single-forms">
+                              <label class="forms-label">
+                                Firma los terminos y condiciones
+                              </label>
+                              <FormulateInput
+                                autocomplete="off"
+                                type="text"
+                                error-behavior="live"
+                                @input="validateSignature()"
+                                input-class="form--control"
+                                help-class="small-text position-absolute"
+                                error-class="text-danger custom-error"
+                                v-model="signature"
+                                label="Tu nombre completo aqui"
+                                :maxlength="64"
+                                name="signature"
+                                :error="
+                                  signatureErrors.signature
+                                    ? `Tu firma tiene que ser igual a tu nombre: ${basicInformation.firstName} ${basicInformation.lastName}`
+                                    : null
+                                "
+                                required
+                              />
                             </div>
                           </div>
                         </div>
@@ -325,7 +381,7 @@
                         name="next"
                         class="next action-button"
                         value="Next"
-                        @click="submitServiceArea"
+                        @click="submitSignature"
                       />
                       <input
                         type="button"
@@ -347,17 +403,18 @@
                                 <i class="las la-check"></i>
                               </div>
                               <h3 class="success-title">
-                                Your Seller Account
-                                <small>Registration Successful</small>
+                                Tu cuenta como reciclador se guardo con éxito!
+                                <small class="d-block"
+                                  >Estudiaremos tu caso y te contactaremos pronto.
+                                  Muchas gracias!</small
+                                >
                               </h3>
                             </div>
                           </div>
                         </div>
                       </div>
                       <div class="btn-wrapper text-center margin-top-35">
-                        <a href="index.html" class="cmn-btn btn-bg-1">
-                          Back To Home</a
-                        >
+                        <NuxtLink :to="`collector/${recyclerId}`" class="cmn-btn btn-bg-1"> Go to profile</NuxtLink>
                       </div>
                     </fieldset>
                   </transition>
@@ -374,34 +431,65 @@
 
 
 <script>
-import {email,phoneNumber, bioMinLength} from '~/helpers/fieldValidations.js'
+import {
+  email,
+  phoneNumber,
+  bioMinLength,
+} from "~/helpers/fieldValidations.js";
 export default {
-  middleware: ['userIsLogged', "userIsCollector"],
-  async asyncData({store, $fire}) {
+  middleware: ["userIsLogged", "userIsCollector"],
+  async asyncData({ store, $fire }) {
     // Update basic information
-    const SPLIT_NAME = store.state.user.displayName.split(' ');
-    const FIRST_NAME = store.state.user.firstName ? store.state.user.firstName : SPLIT_NAME[0];
+    const SPLIT_NAME = store.state.user.displayName.split(" ");
+    const FIRST_NAME = store.state.user.firstName
+      ? store.state.user.firstName
+      : SPLIT_NAME[0];
     const LAST_NAME = SPLIT_NAME[SPLIT_NAME.length - 1];
 
-    const RECYCLER_INFORMATION = (await $fire.database.ref('collectors').orderByChild('user_uid').equalTo(store.state.user.uid).get()).val();
+    const RECYCLER_INFORMATION = (
+      await $fire.database
+        .ref("collectors")
+        .orderByChild("user_uid")
+        .equalTo(store.state.user.uid)
+        .get()
+    ).val();
 
-    let basicInformation =  {
+    let basicInformation = {
       firstName: FIRST_NAME,
       lastName: LAST_NAME,
       email: store.state.user.email,
-      phone: store.state.user.phone ? store.state.user.phone : '',
-    }
+      phone: store.state.user.phone ? store.state.user.phone : "",
+    };
 
     let basicInfoSubmitted = true;
     // Iterate through the properties of the object
     for (const field in basicInformation) {
       if (!basicInformation.hasOwnProperty(field) || !basicInformation[field]) {
-        basicInfoSubmitted = false
+        basicInfoSubmitted = false;
       }
     }
 
     // Get the recycler id
-    const RECYCLER_ID = Object.keys(RECYCLER_INFORMATION)[0]
+    const RECYCLER_ID = Object.keys(RECYCLER_INFORMATION)[0];
+
+    // Check signature
+    let signature = "";
+
+    if(Object.hasOwn(RECYCLER_INFORMATION[RECYCLER_ID], "termsAndConditionsSigned") && RECYCLER_INFORMATION[RECYCLER_ID].termsAndConditionsSigned) {
+      signature = Object.hasOwn(RECYCLER_INFORMATION[RECYCLER_ID], "signature") ? RECYCLER_INFORMATION[RECYCLER_ID].signature : ""
+    }
+
+    // Define the step it should go
+    let step = 1;
+    if(basicInfoSubmitted) {
+      step++
+    }
+    if(RECYCLER_INFORMATION[RECYCLER_ID].listingTitle && RECYCLER_INFORMATION[RECYCLER_ID].listingBio) {
+      step++
+    }
+    if(RECYCLER_INFORMATION[RECYCLER_ID].radius && RECYCLER_INFORMATION[RECYCLER_ID].center && RECYCLER_INFORMATION[RECYCLER_ID].state) {
+      step++
+    }
 
     return {
       basicInformation,
@@ -409,24 +497,35 @@ export default {
       recyclerId: RECYCLER_ID,
       recyclerInformation: RECYCLER_INFORMATION,
       listing: {
-        listingTitle: RECYCLER_INFORMATION[RECYCLER_ID].listingTitle ? RECYCLER_INFORMATION[RECYCLER_ID].listingTitle : '',
-        listingBio: RECYCLER_INFORMATION[RECYCLER_ID].listingBio ? RECYCLER_INFORMATION[RECYCLER_ID].listingBio : ''
+        listingTitle: RECYCLER_INFORMATION[RECYCLER_ID].listingTitle
+          ? RECYCLER_INFORMATION[RECYCLER_ID].listingTitle
+          : "",
+        listingBio: RECYCLER_INFORMATION[RECYCLER_ID].listingBio
+          ? RECYCLER_INFORMATION[RECYCLER_ID].listingBio
+          : "",
       },
       serviceArea: {
-        center: RECYCLER_INFORMATION[RECYCLER_ID].center ? RECYCLER_INFORMATION[RECYCLER_ID].center : [-31.416668, -64.183334],
-        radius: RECYCLER_INFORMATION[RECYCLER_ID].radius ? RECYCLER_INFORMATION[RECYCLER_ID].radius : 3000,
-        state: RECYCLER_INFORMATION[RECYCLER_ID].state ? RECYCLER_INFORMATION[RECYCLER_ID].state : 'cordoba'
+        center: RECYCLER_INFORMATION[RECYCLER_ID].center
+          ? RECYCLER_INFORMATION[RECYCLER_ID].center
+          : [-31.416668, -64.183334],
+        radius: RECYCLER_INFORMATION[RECYCLER_ID].radius
+          ? RECYCLER_INFORMATION[RECYCLER_ID].radius
+          : 3000,
+        state: RECYCLER_INFORMATION[RECYCLER_ID].state
+          ? RECYCLER_INFORMATION[RECYCLER_ID].state
+          : "cordoba",
       },
-    }
+      signature,
+      step
+    };
   },
   computed: {
     user() {
-      return this.$store.state.user
+      return this.$store.state.user;
     },
   },
   data() {
     return {
-      step: 5,
       fromHasErrors: {
         email: false,
         phone: false,
@@ -435,14 +534,17 @@ export default {
       },
       listingErrors: {
         listingTitle: false,
-        listingBio: false
+        listingBio: false,
       },
-      listingBioErrorMessage: '',
-    }
+      listingBioErrorMessage: "",
+      signatureErrors: {
+        signature: false,
+      },
+    };
   },
   mounted() {
-    if(this.step == 3) {
-      this.createMap()
+    if (this.step == 3) {
+      this.createMap();
     }
   },
   methods: {
@@ -452,88 +554,89 @@ export default {
       this.$helpers.switchLoader(true);
       // Validate all properties are complete
       const ERRORS = this.validateBasicProperties();
-      if(ERRORS) {
+      if (ERRORS) {
         // Stop loader and show error message
         this.$helpers.switchLoader(false);
         return alert(ERRORS);
-      } 
+      }
 
       try {
         // Submit information in firebase
         await this.$fire.database.ref(`users/${this.user.uid}`).update({
-          ...this.basicInformation
-        })
+          ...this.basicInformation,
+        });
 
         // Enable "next" button
         this.basicInfoSubmitted = true;
 
         // Show success message
-        this.$toast.success('La informacion se guardo con exito')
+        this.$toast.success("La informacion se guardo con exito");
       } catch (e) {
         // Hide loader
         // handle the error
-        console.error('Error trying to sign up user: ', e.message)
-        this.formErrors.push(e.message)
+        console.error("Error trying to sign up user: ", e.message);
+        this.formErrors.push(e.message);
         // Show error message
-        this.$toast.error(`Hubo un error tratando de guardar la informacion: ${e.message}. Si no reconoce este mensaje comuniquese con nosotros.`)
+        this.$toast.error(
+          `Hubo un error tratando de guardar la informacion: ${e.message}. Si no reconoce este mensaje comuniquese con nosotros.`
+        );
       }
 
       // Hide loader on the end of the function
       this.$helpers.switchLoader(false);
-
     },
     // For now this represents basic validation
     validateBasicProperties() {
       // First name
-      if(
-        typeof this.basicInformation.firstName !== 'string' || 
-        !this.basicInformation.firstName.length) {
-          this.fromHasErrors.firstName = true;
+      if (
+        typeof this.basicInformation.firstName !== "string" ||
+        !this.basicInformation.firstName.length
+      ) {
+        this.fromHasErrors.firstName = true;
       }
 
       // Last name
-      if(
-        typeof this.basicInformation.lastName !== 'string' || 
-        !this.basicInformation.lastName.length) {
-          this.fromHasErrors.lastName = true;
+      if (
+        typeof this.basicInformation.lastName !== "string" ||
+        !this.basicInformation.lastName.length
+      ) {
+        this.fromHasErrors.lastName = true;
       }
 
       // Email
-      if(
-        typeof email(this.basicInformation.email) == 'string'
-      ) {
-          this.fromHasErrors.email = true;
+      if (typeof email(this.basicInformation.email) == "string") {
+        this.fromHasErrors.email = true;
       }
 
       // Phone and format
-      if(
-        typeof phoneNumber(this.basicInformation.phone) == 'string'
-      ) {
-          this.basicInformation.phone = ''
-          this.fromHasErrors.phone = true;
+      if (typeof phoneNumber(this.basicInformation.phone) == "string") {
+        this.basicInformation.phone = "";
+        this.fromHasErrors.phone = true;
       }
 
-      //? If some values is false in fromHasErrors, then return error 
+      //? If some values is false in fromHasErrors, then return error
 
       // Create an array to store failed fields
       const failedFields = [];
       // Iterate through the properties of the object
       for (const field in this.fromHasErrors) {
-        if (this.fromHasErrors.hasOwnProperty(field) && this.fromHasErrors[field]) {
+        if (
+          this.fromHasErrors.hasOwnProperty(field) &&
+          this.fromHasErrors[field]
+        ) {
           failedFields.push(field);
         }
       }
 
       // Create an error message if any fields failed
       if (failedFields.length > 0)
-        return `The following fields are invalid: ${failedFields.join(', ')}`;
+        return `The following fields are invalid: ${failedFields.join(", ")}`;
 
       return false;
-
     },
     handleError(val) {
       // Change object status
-      this.fromHasErrors[val.name] = val.hasErrors
+      this.fromHasErrors[val.name] = val.hasErrors;
     },
 
     /* Listing functions */
@@ -542,42 +645,48 @@ export default {
       this.$helpers.switchLoader(true);
       // Validate all properties are complete
       const ERRORS = this.validateListing();
-      if(ERRORS) {
+      if (ERRORS) {
         // Stop loader and show error message
         this.$helpers.switchLoader(false);
         return alert(ERRORS);
-      } 
+      }
 
       try {
-
         // Update recycler information in firebase
         // Update only if something changed
-        if(
+        if (
           !this.recyclerInformation[this.recyclerId].listingTitle ||
           !this.recyclerInformation[this.recyclerId].listingBio ||
-          this.recyclerInformation[this.recyclerId].listingTitle != this.listing.listingTitle ||
-          this.recyclerInformation[this.recyclerId].listingBio != this.listing.listingBio
+          this.recyclerInformation[this.recyclerId].listingTitle !=
+            this.listing.listingTitle ||
+          this.recyclerInformation[this.recyclerId].listingBio !=
+            this.listing.listingBio
         ) {
           // Update local object
-          this.recyclerInformation[this.recyclerId].listingTitle = this.listing.listingTitle
-          this.recyclerInformation[this.recyclerId].listingBio = this.listing.listingBio
+          this.recyclerInformation[this.recyclerId].listingTitle =
+            this.listing.listingTitle;
+          this.recyclerInformation[this.recyclerId].listingBio =
+            this.listing.listingBio;
 
           // Update database
-          await this.$fire.database.ref(`collectors/${this.recyclerId}`)
+          await this.$fire.database
+            .ref(`collectors/${this.recyclerId}`)
             .update({
-              ...this.listing
-          })
+              ...this.listing,
+            });
         }
 
         // Show success message
-        this.$toast.success('La informacion se guardo con exito')
+        this.$toast.success("La informacion se guardo con exito");
       } catch (e) {
         // Hide loader
         // handle the error
-        console.error('Error trying to sign up user: ', e.message)
-        this.formErrors.push(e.message)
+        console.error("Error trying to sign up user: ", e.message);
+        this.formErrors.push(e.message);
         // Show error message
-        this.$toast.error(`Hubo un error tratando de guardar la informacion: ${e.message}. Si no reconoce este mensaje comuniquese con nosotros.`)
+        this.$toast.error(
+          `Hubo un error tratando de guardar la informacion: ${e.message}. Si no reconoce este mensaje comuniquese con nosotros.`
+        );
       }
 
       // Hide loader on the end of the function
@@ -586,9 +695,10 @@ export default {
     },
     validateListing(type) {
       // Listing title
-      if(
-        (typeof this.listing.listingTitle !== 'string' || 
-        !this.listing.listingTitle.length) && type !== 'bio'
+      if (
+        (typeof this.listing.listingTitle !== "string" ||
+          !this.listing.listingTitle.length) &&
+        type !== "bio"
       ) {
         this.listingErrors.listingTitle = true;
       } else {
@@ -596,37 +706,37 @@ export default {
       }
 
       // Phone and format
-      const BIO_VALIDATION = bioMinLength(this.listing.listingBio)
-      if(
-        typeof BIO_VALIDATION == 'string' && type !== 'listing'
-      ) {
-          this.listingBioErrorMessage = BIO_VALIDATION;
-          this.listingErrors.listingBio = true;
+      const BIO_VALIDATION = bioMinLength(this.listing.listingBio);
+      if (typeof BIO_VALIDATION == "string" && type !== "listing") {
+        this.listingBioErrorMessage = BIO_VALIDATION;
+        this.listingErrors.listingBio = true;
       } else {
-          this.listingErrors.listingBio = false;
+        this.listingErrors.listingBio = false;
       }
 
-      //? If some values is false in listingErrors, then return error 
+      //? If some values is false in listingErrors, then return error
 
       // Create an array to store failed fields
       const failedFields = [];
       // Iterate through the properties of the object
       for (const field in this.listingErrors) {
-        if (this.listingErrors.hasOwnProperty(field) && this.listingErrors[field]) {
+        if (
+          this.listingErrors.hasOwnProperty(field) &&
+          this.listingErrors[field]
+        ) {
           failedFields.push(field);
         }
       }
 
       // Create an error message if any fields failed
       if (failedFields.length > 0)
-        return `The following fields are invalid: ${failedFields.join(', ')}`;
+        return `The following fields are invalid: ${failedFields.join(", ")}`;
 
       return false;
-
     },
     handleListingError(val) {
       // Change object status
-      this.listingErrors[val.name] = val.hasErrors
+      this.listingErrors[val.name] = val.hasErrors;
     },
 
     /** Service area functions */
@@ -635,23 +745,21 @@ export default {
       this.$helpers.switchLoader(true);
 
       try {
-
-        console.log(this.serviceArea)
-
         // Update database
-        await this.$fire.database.ref(`collectors/${this.recyclerId}`)
-          .update({
-            ...this.serviceArea
-        })
+        await this.$fire.database.ref(`collectors/${this.recyclerId}`).update({
+          ...this.serviceArea,
+        });
 
         // Show success message
-        this.$toast.success('La informacion se guardo con exito')
+        this.$toast.success("La informacion se guardo con exito");
       } catch (e) {
         // Hide loader
         // handle the error
-        console.error('Error trying to sign up user: ', e.message)
+        console.error("Error trying to sign up user: ", e.message);
         // Show error message
-        this.$toast.error(`Hubo un error tratando de guardar la informacion: ${e.message}. Si no reconoce este mensaje comuniquese con nosotros.`)
+        this.$toast.error(
+          `Hubo un error tratando de guardar la informacion: ${e.message}. Si no reconoce este mensaje comuniquese con nosotros.`
+        );
       }
 
       // Hide loader on the end of the function
@@ -660,45 +768,91 @@ export default {
     },
     createMap(switchCoordinates = false) {
       const COORDINATES = {
-        'buenos-aires': [-34.603722, -58.381592],
-        'cordoba': [-31.416668, -64.183334],
-      } 
+        "buenos-aires": [-34.603722, -58.381592],
+        cordoba: [-31.416668, -64.183334],
+      };
 
       // Change coordinates
-      if(switchCoordinates) this.serviceArea.center = COORDINATES[this.serviceArea.state];
+      if (switchCoordinates)
+        this.serviceArea.center = COORDINATES[this.serviceArea.state];
 
       // Create map
-      this.$d3.createServiceAreaMap('area-map', this.serviceArea, 11)
+      this.$d3.createServiceAreaMap("area-map", this.serviceArea, 11);
+    },
+
+    /** Terms and Service & Signature functions  */
+    validateSignature() {
+      // Retrieve full name using store
+      const FULL_NAME =
+        this.basicInformation.firstName + " " + this.basicInformation.lastName;
+
+      // Check if signature is valid
+      this.signatureErrors.signature = FULL_NAME !== this.signature;
+
+      // If not valid it will return false
+      return !this.signatureErrors.signature
+    },
+    async submitSignature() {
+
+      // First run the valiations. If not valid it will return false
+      if(!this.validateSignature()) return this.$toast.error('La firma no coincide, por favor asegurese de que la firma coincida con su nombre.')
+
+      // Show loader first
+      this.$helpers.switchLoader(true);
+
+      try {
+        // Update database
+        await this.$fire.database.ref(`collectors/${this.recyclerId}`).update({
+          termsAndConditionsSigned: true,
+          signature: this.signature,
+          collector_status: "IN_REVIEW"
+        });
+
+        // Show success message
+        this.$toast.success("La informacion se guardo con exito");
+      } catch (e) {
+        // Hide loader
+        // handle the error
+        console.error("Error trying to sign up user: ", e.message);
+        // Show error message
+         this.$toast.error(
+          `Hubo un error tratando de guardar la informacion: ${e.message}. Si no reconoce este mensaje comuniquese con nosotros.`
+        );
+        return this.$helpers.switchLoader(false);
+      }
+
+      // Hide loader on the end of the function
+      this.$helpers.switchLoader(false);
+      this.goToNext();
+
     },
 
     /** Form management functions */
     goToNext() {
-      this.step++
+      this.step++;
 
-      if(this.step == 3) {
+      if (this.step == 3) {
         setTimeout(() => {
-          console.log('some')
-          this.createMap()
-        },500)
+          this.createMap();
+        }, 500);
       }
     },
     goToPrev() {
-      this.step--
-      if(this.step == 3) {
+      this.step--;
+      if (this.step == 3) {
         setTimeout(() => {
-          console.log('some')
-          this.createMap()
-        },500)
+          this.createMap();
+        }, 500);
       }
     },
-  }
-}
+  },
+};
 </script>
 
 <style>
 .custom-error {
   position: relative;
-  top: 1.2rem
+  top: 1.2rem;
 }
 
 .text-area {
@@ -725,12 +879,12 @@ export default {
 }
 
 .map-container #area-map {
-    width: 100%; /* Adjust the width as needed */
-    max-width: 800px; /* Set a maximum width if desired */
-    height: 800px; /* Set a maximum width if desired */
-    padding: 10px; /* Add padding to create space around the map */
-    border: 1px solid #ddd; /* Add a border with a light gray color */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+  width: 100%; /* Adjust the width as needed */
+  max-width: 800px; /* Set a maximum width if desired */
+  height: 800px; /* Set a maximum width if desired */
+  padding: 10px; /* Add padding to create space around the map */
+  border: 1px solid #ddd; /* Add a border with a light gray color */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
 }
 </style>
