@@ -139,7 +139,7 @@
     transform: scale(.75) translateY(-21px);
     -webkit-transition: all 0.2s cubic-bezier(.5, 0, 0, 1.25), opacity 0.15s ease-out;
     transition: all 0.2s cubic-bezier(.5, 0, 0, 1.25), opacity 0.15s ease-out;
-    z-index: 9
+    z-index: 20
 }
 
 .nice-select .list:hover .option:not(:hover) {

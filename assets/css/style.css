@@ -2206,7 +2206,6 @@ code {
   position: relative;
   z-index: 1;
   padding: 0;
-  overflow: hidden;
 }
 .banner-area.home-one-banner {
   padding: 285px 0 170px;
@@ -2407,7 +2406,7 @@ code {
   background: none;
   font-size: 16px;
   height: 60px;
-  width: unset;
+  width: 80%;
   margin-right: 0;
   position: relative;
 }
@@ -3143,7 +3142,7 @@ code {
   left: 0;
   right: 0;
   margin: 0 auto;
-  top: 40px;
+  top: -.5rem;
   border-radius: 50%;
   z-index: -1;
 }
@@ -3259,6 +3258,8 @@ code {
 }
 .banner-right-contents .banner-right-thumb img {
   width: 100%;
+  position: relative;
+  top: 2rem;
 }
 .banner-right-contents .banner-right-thumb .banner-dot-shape img {
   position: absolute;
