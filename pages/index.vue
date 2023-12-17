@@ -7,27 +7,27 @@
           <div class="col-xl-5">
             <div class="banner-contents style-02" style="padding-top: 0px">
               <h2 class="banner-title">
-                Encontrá Recolectores
-                <span class="span-shape"> Comprometidos </span>
+                Emprezá a
+                <span class="span-shape"> Reciclar! </span>
               </h2>
               <span class="title-top">
-               Desde tu hogar hacia un ciclo sostenible!
+               Llená el formulario y encontrá el recolector ideal
               </span>
               <div class="banner-bottom-content">
-                <form @submit.prevent="searchCollectors" class="banner-search-form">
+                <div class="banner-search-form">
                   <div class="banner-address-select">
-                    <select>
+                    <select @change="searchCollectors">
                       <option value="1">Select Location</option>
                       <option value="2">Córdoba</option>
                       <option value="3">Buenos Aires</option>
                     </select>
                   </div>
                   <div class="banner-button">
-                    <button type="submit" class="banner-submit">
-                      Search
-                    </button>
+                    <NuxtLink to="/checkout" class="banner-submit">
+                      Empezar
+                    </NuxtLink>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>
@@ -82,7 +82,7 @@
                 </ul>
                 <div class="btn-wrapper">
                   <NuxtLink to="/become-collector" class="cmn-btn btn-bg-2">
-                    Empezar!
+                    Mas Información
                   </NuxtLink>
                 </div>
               </div>

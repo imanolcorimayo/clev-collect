@@ -1,5 +1,5 @@
 export default ({ $config: { baseUrl }, $toast }, inject) => {
-  
+
     // Loading the leaflet library
     async function loadLeaflet() {
       if (typeof window.L !== "object") {
@@ -9,17 +9,17 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
           link.rel = "stylesheet";
           link.href = "/css/leaflet-1.9.3.min.css";
           document.head.appendChild(link);
-  
+
           // JS
           let script = document.createElement("script");
           script.src = "/js/leaflet-1.9.3.min.js";
           document.head.appendChild(script)
-  
+
           function helper() {
             // Excecute this function once library is loaded
             resolve(window.L);
           }
-  
+
           script.onreadystatechange = function () {
             if (this.readyState == "complete") helper();
           };
@@ -33,7 +33,7 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
       // Load leaflet library if no exists
       await loadLeaflet();
       const L = window.L;
-  
+
       // Function to create map into <div id = "map-id"></div>
       const createMap = function (L, center = [-31.416668, -64.183334], zoom, divClass) {
         const container = document.getElementById(divClass);
@@ -52,7 +52,7 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
           style: 'main',
           ext: 'png'
         }).addTo(map);
-  
+
         container.value = map;
         return container;
       };
@@ -74,10 +74,10 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
         banner.style.top = '0px';
         banner.style.right = '0px';
       };
-  
+
       // Check if already exist and delete it to avoid conflicts
       removeIfExist(document.getElementById(divClass));
-  
+
       // Creating map
       const map = createMap(L, serviceArea.center, zoom, divClass);
       const featureGroup = L.featureGroup().addTo(map.value);
@@ -114,10 +114,88 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
         // Update message in the center of the circle
         updateBanner();
       });
-      
+
       map.value.on('mouseup', function () {
         isDragging = false;
         map.value.dragging.enable();
+      });
+
+      // Update message in the center of the circle
+      updateBanner();
+    }
+
+    async function createCheckoutMap(divClass, serviceArea, zoom) {
+
+      // Load leaflet library if no exists
+      await loadLeaflet();
+      const L = window.L;
+
+      // Function to create map into <div id = "map-id"></div>
+      const createMap = function (L, center = [-31.416668, -64.183334], zoom, divClass) {
+        const container = document.getElementById(divClass);
+        const map = L.map(container, {
+          zoomControl: true,
+          dragging: true,
+          zoomSnap: 0.01,
+          attributionControl: true,
+        }).setView(center, zoom);
+
+        // Add map image into div
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          maxZoom: zoom + 5,
+          minZoom: 11,
+          style: 'main',
+          ext: 'png'
+        }).addTo(map);
+
+        container.value = map;
+        return container;
+      };
+
+      // Function to update banner content and position
+      const updateBanner = function() {
+        const CHECKOUT_BANNER = document.getElementById('checkoutBanner');
+        const BANNER_CONTENT = document.getElementById('bannerContent');
+
+        const LAT = serviceArea.center[0].toFixed(5);
+        const LNG = serviceArea.center[1].toFixed(5);
+
+        // Update banner content
+        let content = `Lat:${LAT}<br> Long: ${LNG}`;
+        BANNER_CONTENT.innerHTML = content;
+
+        // Position the banner at the center of the circle
+        CHECKOUT_BANNER.style.top = '0px';
+        CHECKOUT_BANNER.style.right = '0px';
+      };
+
+      // Check if already exist and delete it to avoid conflicts
+      removeIfExist(document.getElementById(divClass));
+
+      // Creating map
+      const map = createMap(L, serviceArea.center, zoom, divClass);
+      const featureGroup = L.featureGroup().addTo(map.value);
+
+      // Create the marker
+      const MARKER = L.marker(serviceArea.center).addTo(featureGroup);
+
+      map.value.on('drag', function () {
+        const AUX = map.value.getCenter();
+        serviceArea.center = [AUX.lat, AUX.lng];
+        MARKER.setLatLng(AUX);
+
+        // Update message in the center of the circle
+        updateBanner();
+      });
+
+      map.value.on('zoom', function () {
+        const AUX = map.value.getCenter();
+        serviceArea.center = [AUX.lat, AUX.lng];
+        MARKER.setLatLng(AUX);
+
+        // Update message in the center of the circle
+        updateBanner();
       });
 
       // Update message in the center of the circle
@@ -135,7 +213,7 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
           const { x, y } = point;
           return { x, y, r: 10, a: Math.PI * 10 * 10, ...props };
         };
-    
+
         // Function to create the circle marker
         const createMarker = function (latlng, props) {
           const marker = window.L.circleMarker(latlng, {
@@ -147,7 +225,7 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
           });
           return marker;
         };
-    
+
         // Function to create the custom marker with logo
         const createCustomMarker = function (latlng, props) {
           function findSittersInSet() {
@@ -158,9 +236,9 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
               if (el.lng <= props.lng - props.r * 0.0005) return false;
               return true;
             });
-    
+
             let string = "";
-    
+
             for (let i = 0; i < filtered.length; i++) {
               string =
                 string +
@@ -168,7 +246,7 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
             }
             return string;
           }
-    
+
           // Html with logo and count property
           const htmlString = props.collided
             ? `<div class="sitters-number sitters-number-large">
@@ -180,7 +258,7 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
                 <span class="icon"></span>
                 <span class="number">${props.count}</span>
               </div>`;
-    
+
           const customIcon = window.L.divIcon({
             className: "number-icon",
             iconSize: [50, 70],
@@ -188,14 +266,14 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
             popupAnchor: [3, -40],
             html: htmlString,
           });
-    
+
           const iconMarker = window.L.marker(latlng, { icon: customIcon });
-    
+
           let scoreString = "";
           for (let j = 0; j < props.review_score; j++) {
             scoreString = scoreString + '<span class="icon-star"></span>';
           }
-    
+
           const popupContent = !props.collided
             ? `<div class="container-map">
             <div class="container-img-map">
@@ -216,10 +294,10 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
           iconMarker.on("click", function (e) {
             this.openPopup();
           });
-    
+
           return iconMarker;
         };
-    
+
         // Function to create map into <div id = "map-wrap"></div>
         const createMap = function (L, view, zoom, divClass) {
           const container = document.getElementById(divClass);
@@ -229,7 +307,7 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
             attributionControl: true,
             zoomSnap: 0.5,
           }).setView(view, zoom);
-    
+
           // Add map image into div
           L.tileLayer("https://{s}.api.tomtom.com/map/1/tile/basic/{style}/{z}/{x}/{y}.{ext}?key={apikey}", {
             attribution: '<a href="https://tomtom.com" target="_blank">&copy; TomTom</a>',
@@ -239,18 +317,18 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
             style: 'main',
             ext: 'png'
           }).addTo(map);
-    
+
           container.value = map;
           return container;
         };
-    
+
         // Check if already exist and delete it to avoid conflicts
         removeIfExist(document.getElementById(divClass));
-    
+
         // Creating map
         const map = createMap(window.L, initialCoordinates, zoom, divClass);
         const featureGroup = window.L.featureGroup().addTo(map.value);
-    
+
         // Creating nodes with data of DB
         const nodes = valueLocations?.map((el) => {
           const x = el.lat;
@@ -258,15 +336,15 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
           // Converting coordinates into <Pint> value
           return createNode(map.value.latLngToLayerPoint([x, y]), el);
         });
-    
+
         // On d3-marker-cluster update
         function ticked() {
           // Get cluster nodes:
           const current = this.nodes();
-    
+
           // Filter nodes that collided
           let filtered = current.filter((d) => d.r != 0); // filter out dead nodes
-    
+
           // heuristic ?
           //if (filtered.length !== current.length) {
           this.nodes(filtered); // faster iterations
@@ -278,10 +356,10 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
           });
           //}
         }
-    
+
         // init the cluster
         const cluster = mc.cluster().nodes(nodes).alpha(0.002).on("tick", ticked);
-    
+
         // When we zoom
         function zoomend() {
           const liveZoom = map.value.getZoom();
@@ -303,7 +381,7 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
             cluster.restart(); // start the clusterer
           }
         }
-    
+
         // bind to zoom events
         map.value.on("zoomend", zoomend);
         // Set max mound if variable is not null
@@ -315,7 +393,7 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
           });
         }
     }
-  
+
     async function mapInit(valueLocations, divClass, initialCoordinates, zoom, maxBound = false) {
       await loadLeaflet();
       if (typeof window.d3 !== "object") {
@@ -323,22 +401,22 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
         script1.type = "text/javascript";
         script1.src = "/static/js/d3.v7.8.2.min.js";
         document.head.appendChild(script1);
-  
+
         function helper() {
           let script = document.createElement("script");
           script.src = "/static/js/d3-cluster.min.js";
           document.head.appendChild(script);
-  
+
           function helper2() {
             mapFunctions(valueLocations, divClass, initialCoordinates, zoom, maxBound);
           }
-  
+
           script.onreadystatechange = function () {
             if (this.readyState == "complete") helper2();
           };
           script.onload = helper2;
         }
-  
+
         script1.onreadystatechange = function () {
           if (this.readyState == "complete") helper();
         };
@@ -348,12 +426,12 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
       }
       return window.d3 ? window.d3 : false;
     }
-  
+
     async function staticSimpleMap(divClass, userPosition, zoom) {
       // Load leaflet library if no exists
       await loadLeaflet();
       const L = window.L;
-  
+
       // Function to create map into <div id = "map-id"></div>
       const createMap = function (L, center = [40.75065, -73.99718], zoom, divClass) {
         const container = document.getElementById(divClass);
@@ -363,7 +441,7 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
           zoomSnap: 0.01,
           attributionControl: true,
         }).setView(center, zoom);
-  
+
         // Add map image into div
         L.tileLayer("https://{s}.api.tomtom.com/map/1/tile/basic/{style}/{z}/{x}/{y}.{ext}?key={apikey}", {
           attribution: '<a href="https://tomtom.com" target="_blank">&copy; TomTom</a>',
@@ -373,27 +451,27 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
           style: 'main',
           ext: 'png'
         }).addTo(map);
-  
+
         container.value = map;
         return container;
       };
-  
+
       // Check if already exist and delete it to avoid conflicts
       removeIfExist(document.getElementById(divClass));
-  
+
       // Creating map
       const map = createMap(L, userPosition, zoom, divClass);
       const featureGroup = L.featureGroup().addTo(map.value);
-  
+
       // Create the marker
       window.L.marker(userPosition).addTo(featureGroup);
     }
-  
+
     async function chatMap(divClass, userPosition, zoom, city) {
       // Load leaflet library if no exists
       await loadLeaflet();
       const L = window.L;
-  
+
       // Function to create map into <div id = "map-id"></div>
       const createMap = function (L, center = [40.75065, -73.99718], zoom, divClass) {
         const container = document.getElementById(divClass);
@@ -403,8 +481,8 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
           zoomSnap: 0.01,
           attributionControl: true,
         }).setView(center, zoom);
-  
-        // Add map image into div      
+
+        // Add map image into div
         L.tileLayer("https://{s}.api.tomtom.com/map/1/tile/basic/{style}/{z}/{x}/{y}.{ext}?key={apikey}", {
           attribution: '<a href="https://tomtom.com" target="_blank">&copy; TomTom</a>',
           maxZoom: 15,
@@ -413,23 +491,23 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
           style: 'main',
           ext: 'png'
         }).addTo(map);
-  
+
         container.value = map;
         return container;
       };
-  
+
       // Check if already exist and delete it to avoid conflicts
       removeIfExist(document.getElementById(divClass));
-  
+
       // Creating map
       const map = createMap(L, userPosition, zoom, divClass);
       const featureGroup = L.featureGroup().addTo(map.value);
-  
+
       // Create the marker
       // window.L.marker(userPosition).addTo(featureGroup);
       window.L.circle(userPosition, { radius: 200, color: "#faaf19" }).bindTooltip(`${city}`).addTo(featureGroup);
     }
-  
+
     /** Map with multiPolygons */
     async function staticMapWithPolygon(nodes, divClass, zoom, border, userPosition, useToolTip = true) {
       await loadLeaflet();
@@ -439,12 +517,12 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
         const marker = L.polygon(latlng, {
           color,
         });
-  
+
         // Event hover in marker to show title
         if (useToolTip) marker.bindTooltip(`Zip code: ${zip}`);
         return marker;
       };
-  
+
       // Function to create map into <div id = "map-id"></div>
       const createMap = function (L, center = [40.75065, -73.99718], zoom, divClass) {
         const container = document.getElementById(divClass);
@@ -454,7 +532,7 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
           zoomSnap: 0.01,
           attributionControl: true,
         }).setView(center, zoom);
-  
+
         // Add map image into div
         L.tileLayer("https://{s}.api.tomtom.com/map/1/tile/basic/{style}/{z}/{x}/{y}.{ext}?key={apikey}", {
           attribution: '<a href="https://tomtom.com" target="_blank">&copy; TomTom</a>',
@@ -464,28 +542,28 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
           style: 'main',
           ext: 'png'
         }).addTo(map);
-  
+
         container.value = map;
         return container;
       };
-  
+
       // Check if already exist and delete it to avoid conflicts
       removeIfExist(document.getElementById(divClass));
-  
+
       // Creating map
       const map = createMap(L, userPosition, zoom, divClass);
       const featureGroup = L.featureGroup().addTo(map.value);
-  
-  
-  
+
+
+
       // Insert markers on the map
       insertMarkers(createMarker, {featureGroup, map, nodes, L, color: "#545AFA", clickable: true} );
-  
+
       /* // Create Marker for every set of service zone's nodes
       for (let i = 0; i < nodes.length; i++) {
         createMarker(nodes[i].points, L, "#545AFA", nodes[i].zip).addTo(featureGroup);
       } */
-  
+
       // Check if userPosition exist and create the marker
       if (userPosition) {
         window.L.marker(userPosition).addTo(featureGroup);
@@ -494,25 +572,25 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
         map.value.fitBounds(createMarker([border], L, "#545AFA", "10001").getBounds());
       }
     }
-  
+
     async function clickableArea(
       nodes, zipCenter, {
         divId,
         zoom,
         toggleZip,
         clickable = true
-      } 
+      }
     ) {
       // Load library if not loaded already
       await loadLeaflet();
       const L = window.L;
-  
+
       // Function to create the polygon marker
       const createMarker = function (latlng, L, color, zip) {
         const marker = L.polygon(latlng, {
           color,
         });
-  
+
         // Event click in marker to select the zip
         // Only if clickable (default true)
         if(clickable) {
@@ -521,13 +599,13 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
             toggleZip(zip);
           });
         }
-  
+
         // Event hover in marker to show title with zip
         marker.bindTooltip(`Zip code: ${zip}`);
-  
+
         return marker;
       };
-  
+
       // Function to create map into <div id = "map-id"></div>
       const createMap = function (L, center, zoom, divId) {
         const container = document.getElementById(divId);
@@ -537,7 +615,7 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
           zoomSnap: 0.01,
           attributionControl: true,
         }).setView(center, zoom);
-  
+
         // Add map image into div
         L.tileLayer("https://{s}.api.tomtom.com/map/1/tile/basic/{style}/{z}/{x}/{y}.{ext}?key={apikey}", {
           attribution: '<a href="https://tomtom.com" target="_blank">&copy; TomTom</a>',
@@ -547,68 +625,68 @@ export default ({ $config: { baseUrl }, $toast }, inject) => {
           style: 'main',
           ext: 'png'
         }).addTo(map);
-  
+
         container.value = map;
         return container;
       };
-  
+
       // Check if already exist and delete it to avoid conflicts
       removeIfExist(document.getElementById(divId));
-  
+
       // Creating map
       const map = createMap(L, [zipCenter.lat, zipCenter.lng], zoom, divId);
       const featureGroup = L.featureGroup().addTo(map.value);
-  
+
       // Insert markers on the map
       return insertMarkers(createMarker, {featureGroup, map, nodes, L, color: false, clickable} );
     }
-  
+
     // Create Marker for every set of service zone's nodes
     function insertMarkers(createMarker, {featureGroup, map, nodes, L, color, clickable}) {
       // Save the layers on an array
       let layers = [];
-      let zipCodeMarkers = {}; 
+      let zipCodeMarkers = {};
       for (let i = 0; i < nodes.length; i++) {
-  
+
         // If not clickable and not used, do not create marker
         if(!clickable && !nodes[i].used) continue;
-  
+
         // Create zip property filling all left 0 if number is minor to 10000
-        const zipProperty = isNaN(nodes[i].zip) ? nodes[i].zip.padStart(5, "0") : nodes[i].zip.toString().padStart(5, "0"); 
-  
+        const zipProperty = isNaN(nodes[i].zip) ? nodes[i].zip.padStart(5, "0") : nodes[i].zip.toString().padStart(5, "0");
+
         // Add marker yo the zipCodeMarkers object to use this object later
         zipCodeMarkers[zipProperty] = createMarker(nodes[i].points, L, color || (nodes[i].used ? "#545AFA" : "#7b7b7b"), nodes[i].zip, map);
-        
+
         // Push to layers to be able to add one by one later
         layers.push(zipCodeMarkers[zipProperty]);
       }
-  
+
       // Sort layers to avoid overlapping on bigger polygons. On this case, click event won't work for smaller polygons
       layers.sort((a, b) => {
         // if the second geometry (b) contains the first (a), the order must change so the layers don't overlap
         return b.getBounds().contains(a.getBounds()) ? 1 : -1;
       }).forEach(l => l.addTo(featureGroup));
-  
+
       return zipCodeMarkers;
-  
+
     }
-  
+
     function removeIfExist(element) {
       // Check if already exist and delete it to avoid conflicts
       if (element && element.value) {
         element.value.remove();
       }
     }
-  
+
     const map = {
       mapInit,
       staticMapWithPolygon,
       clickableArea,
       staticSimpleMap,
       chatMap,
-      createServiceAreaMap
+      createServiceAreaMap,
+      createCheckoutMap
     };
-  
+
     inject("d3", map);
   };
-  

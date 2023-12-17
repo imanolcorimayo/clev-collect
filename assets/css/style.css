@@ -64,7 +64,7 @@
 # Normalize
 --------------------------------------------------------------*/
 :root {
-  --main-color-one: #CDF27E;
+  --main-color-one: #88f27e;
   --main-color-one-rgb: 29, 191, 115;
   --main-color-two: #CCA38F;
   --main-color-two-rgb: 71, 200, 237;
@@ -2546,7 +2546,8 @@ code {
 .banner-contents.style-02 .banner-bottom-content .banner-search-form .banner-address-select .nice-select .nice-select-search {
   vertical-align: top;
 }
-.banner-contents.style-02 .banner-bottom-content .banner-search-form .banner-button button {
+.banner-contents.style-02 .banner-bottom-content .banner-search-form .banner-button button,
+.banner-contents.style-02 .banner-bottom-content .banner-search-form .banner-button a  {
   font-size: 18px;
   font-weight: 500;
   background: var(--main-color-two);
@@ -2556,6 +2557,7 @@ code {
   border: 0;
   outline: none;
   height: 60px;
+  line-height: 60px;
   padding: 0 35px;
   border-radius: 10px;
   position: absolute;
@@ -2566,24 +2568,28 @@ code {
   cursor: pointer;
 }
 @media (min-width: 1200px) and (max-width: 1399.98px) {
-  .banner-contents.style-02 .banner-bottom-content .banner-search-form .banner-button button {
+  .banner-contents.style-02 .banner-bottom-content .banner-search-form .banner-button button,
+  .banner-contents.style-02 .banner-bottom-content .banner-search-form .banner-button a  {
     right: 15px;
     padding: 0 30px;
   }
 }
 @media only screen and (max-width: 767.98px) {
-  .banner-contents.style-02 .banner-bottom-content .banner-search-form .banner-button button {
+  .banner-contents.style-02 .banner-bottom-content .banner-search-form .banner-button button,
+  .banner-contents.style-02 .banner-bottom-content .banner-search-form .banner-button a  {
     right: 15px;
     height: 50px;
   }
 }
 @media only screen and (max-width: 575.98px) {
-  .banner-contents.style-02 .banner-bottom-content .banner-search-form .banner-button button {
+  .banner-contents.style-02 .banner-bottom-content .banner-search-form .banner-button button,
+  .banner-contents.style-02 .banner-bottom-content .banner-search-form .banner-button a  {
     padding: 0 25px;
   }
 }
 @media only screen and (max-width: 480px) {
-  .banner-contents.style-02 .banner-bottom-content .banner-search-form .banner-button button {
+  .banner-contents.style-02 .banner-bottom-content .banner-search-form .banner-button button,
+  .banner-contents.style-02 .banner-bottom-content .banner-search-form .banner-button a  {
     position: relative;
     margin-top: 30px;
     margin-left: 20px;

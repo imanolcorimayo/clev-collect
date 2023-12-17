@@ -870,6 +870,7 @@ export default {
   opacity: 0;
 }
 
+/* -------- MAP ----- */
 .map-container {
   width: 100%;
   display: flex;
@@ -887,4 +888,5 @@ export default {
   border-radius: 8px; /* Rounded corners */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
 }
+/* -------- / MAP ----- */
 </style>
